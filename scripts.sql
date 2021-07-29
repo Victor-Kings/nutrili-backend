@@ -1,11 +1,12 @@
-
--- drop table nutritionist;
--- drop table patient;
--- drop table address;
--- drop table meal;
--- drop table food;
--- drop table client;
--- drop table user_nutrili;
+drop table nutritionist;
+drop table patient;
+drop table address;
+drop table meal;
+drop table food;
+drop table client;
+drop table user_nutrili;
+drop table QUESTIONS;
+drop table answers;
 
 CREATE TABLE ADDRESS (
     idAddress serial NOT NULL,
@@ -112,4 +113,23 @@ CREATE TABLE NUTRIENTS (
     color VARCHAR(255) NOT NULL,
     nutrientsType VARCHAR(255) NOT NULL, 
     PRIMARY KEY (idNutrients)
+);
+
+CREATE TYPE typesAnswer as ENUM('bool','insert','checked','insertCustom');
+
+CREATE TABLE QUESTIONS (
+    idQuestion serial NOT null,
+    question VARCHAR(255) not null,
+	typeAnswer typesAnswer,
+	unityMeasure VARCHAR(255),
+	checkQuestions JSON,
+    PRIMARY KEY (idQuestion)
+);
+
+CREATE TABLE ANSWERS (
+ 	idPatientFK serial NOT null,
+ 	idQuestionFK serial NOT null,
+	FOREIGN KEY (idPatientFK) REFERENCES PATIENT(idPatient) ON DELETE CASCADE,
+ 	FOREIGN KEY (idQuestionFK) REFERENCES QUESTIONS(idQuestion) ON DELETE CASCADE,
+	PRIMARY KEY (idPatientFK, idQuestionFK)
 );
