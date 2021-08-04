@@ -11,5 +11,4 @@ public class ExceptionDetails {
     private String details;
     private Throwable complement;
     private LocalDate timeException;
-
 }
