@@ -1,4 +1,4 @@
-package com.nutrili.entity;
+package com.nutrili.external.database.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -8,16 +8,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Table(name="USER_NUTRILI")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
     private Long id;
     private String name;
     @Column(unique = true)

@@ -2,9 +2,9 @@ package com.nutrili.controller;
 
 
 import com.nutrili.misc.RoleConst;
-import com.nutrili.entity.User;
-import com.nutrili.repository.RoleRepository;
-import com.nutrili.repository.UserRepository;
+import com.nutrili.external.database.entity.User;
+import com.nutrili.external.database.repository.RoleRepository;
+import com.nutrili.external.database.repository.UserRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;

@@ -1,4 +1,4 @@
-package com.nutrili.entity;
+package com.nutrili.external.database.entity;
 
 
 import lombok.Getter;

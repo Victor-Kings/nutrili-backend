@@ -1,6 +1,6 @@
-package com.nutrili.repository;
+package com.nutrili.external.database.repository;
 
-import com.nutrili.entity.User;
+import com.nutrili.external.database.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

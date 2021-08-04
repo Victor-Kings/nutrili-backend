@@ -1,6 +1,6 @@
 package com.nutrili.misc;
 
-import com.nutrili.entity.User;
+import com.nutrili.external.database.entity.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class UserContext {

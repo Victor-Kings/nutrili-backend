@@ -1,7 +1,8 @@
 package com.nutrili.service;
 
-import com.nutrili.entity.User;
-import com.nutrili.repository.UserRepository;
+import com.nutrili.exception.UserNotFoundException;
+import com.nutrili.external.database.entity.User;
+import com.nutrili.external.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +23,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("Usuário não existe!", username));
+            throw new UserNotFoundException();
         }
         return user;
     }
