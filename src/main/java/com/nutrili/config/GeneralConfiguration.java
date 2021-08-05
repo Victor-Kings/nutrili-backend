@@ -17,10 +17,6 @@ public class GeneralConfiguration {
         Class<?> classOnWired = injectionPoint.getMember().getDeclaringClass();
         return LoggerFactory.getLogger(classOnWired);
     }
-    @Bean
-    public TokenStore tokenStore() {
-        return new InMemoryTokenStore();
-    }
 
     @Bean
     public ExceptionDetails getExceptionDetails()

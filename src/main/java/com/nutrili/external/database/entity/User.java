@@ -2,14 +2,20 @@ package com.nutrili.external.database.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,12 +27,47 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
+    @Setter(value= AccessLevel.NONE)
     private Long id;
+
+    @Column(name = "nameUser")
+    @NotNull
+    @Size(min=6, max=30)
     private String name;
-    @Column(unique = true)
+
+    @Column(name= "gender")
+    @NotNull
+    @Size(max=1)
+    private String gender;
+
+    @Column(name="birth")
+    @NotNull
+    private Date birth;
+
+    @Column(name="phone")
+    @NotNull
+    @Size(min=11,max=11)
+    @Pattern(regexp="^\\(\\d{2}\\)9\\d{4}-\\d{4}")
+    private String phone;
+
+    @Column(name="CPF")
+    @NotNull
+    @CPF
+    private String cpf;
+
+    @Column(name= "email")
+    @Email
+    @NotNull
     private String email;
+
     @JsonIgnore
+    @Column(name="passwordUser")
+    @NotNull
     private String password;
+
+    @Column(name="linkImage")
+    @NotNull
+    private String image;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role",
@@ -34,6 +75,11 @@ public class User implements UserDetails {
             inverseJoinColumns=@JoinColumn(name="role_id")
     )
     private List<Role> roles;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "addressId")
+    private Address addressId;
 
     public User() {
     }
