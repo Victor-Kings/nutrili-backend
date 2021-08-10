@@ -5,6 +5,7 @@ import com.nutrili.misc.RoleConst;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.external.database.repository.RoleRepository;
 import com.nutrili.external.database.repository.UserRepository;
+import com.nutrili.service.ValidateTokenService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +44,17 @@ public class UserController {
 
     @Autowired
     DefaultTokenServices defaultTokenServices;
+
+    @Autowired
+    ValidateTokenService validateTokenService;
+
+
+    @PostMapping(value = "/insertUser")
+    public void insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization)
+    {
+        System.out.print("\n aoba"+authorization);
+        validateTokenService.validateToken(authorization);
+    }
 
     @Secured({RoleConst.ROLE_ADMIN})
     @RequestMapping(value = "", method = RequestMethod.POST)

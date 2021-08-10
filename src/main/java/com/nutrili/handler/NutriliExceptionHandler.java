@@ -1,6 +1,7 @@
 package com.nutrili.handler;
 
 import com.nutrili.exception.ExceptionDetails;
+import com.nutrili.exception.InvalidTokenException;
 import com.nutrili.exception.models.ApplicationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,15 @@ public class NutriliExceptionHandler {
 
     @Autowired ExceptionDetails exceptionDetails;
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ExceptionDetails> handlerInvalidTokenException(UsernameNotFoundException usernameNotFoundException)
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ExceptionDetails> handlerInvalidTokenException(InvalidTokenException invalidTokenException)
     {
-        exceptionDetails.setTitle("Invalid Token Exception");
-        exceptionDetails.setDetails(usernameNotFoundException.getMessage());
-        exceptionDetails.setComplement(usernameNotFoundException.getCause());
+        exceptionDetails.setTitle("Aopa, your are not allowed here");
+        exceptionDetails.setDetails(invalidTokenException.getMessage());
+        exceptionDetails.setComplement(invalidTokenException.getCause());
         exceptionDetails.setTimeException(LocalDate.now());
 
-        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationError.INVALID_CREDENTIALS.getCode());
+        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationError.INVALID_TOKEN.getCode());
     }
 
 }

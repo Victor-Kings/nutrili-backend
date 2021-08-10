@@ -9,7 +9,6 @@
     <packaging>jar</packaging>
 
     <name>backend</name>
-    <description>Exemplo de projeto utilizando OAuth2</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
