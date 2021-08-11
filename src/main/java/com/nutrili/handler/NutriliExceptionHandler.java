@@ -2,6 +2,7 @@ package com.nutrili.handler;
 
 import com.nutrili.exception.ExceptionDetails;
 import com.nutrili.exception.InvalidTokenException;
+import com.nutrili.exception.PhoneNotFoundException;
 import com.nutrili.exception.models.ApplicationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,17 @@ public class NutriliExceptionHandler {
         exceptionDetails.setTimeException(LocalDate.now());
 
         return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationError.INVALID_TOKEN.getCode());
+    }
+
+    @ExceptionHandler(PhoneNotFoundException.class)
+    public ResponseEntity<ExceptionDetails> handlerPhoneNotFoundException(PhoneNotFoundException phoneNotFoundException)
+    {
+        exceptionDetails.setTitle("Phone number received wasn't found");
+        exceptionDetails.setDetails(phoneNotFoundException.getMessage());
+        exceptionDetails.setComplement(phoneNotFoundException.getCause());
+        exceptionDetails.setTimeException(LocalDate.now());
+
+        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationError.INVALID_PHONE.getCode());
     }
 
 }

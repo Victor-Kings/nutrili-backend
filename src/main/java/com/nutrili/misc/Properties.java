@@ -12,4 +12,13 @@ public class Properties {
 
     @Value("${user.oauth.clientSecret}")
     private String password;
+
+    @Value("${twilio.account_sid}")
+    private String accountSid;
+
+    @Value("${twilio.auth_token}")
+    private String authToken;
+
+    @Value("${twilio.phone}")
+    private String phone;
 }

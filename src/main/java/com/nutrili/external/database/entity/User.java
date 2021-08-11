@@ -47,7 +47,6 @@ public class User implements UserDetails {
     @Column(name="phone")
     @NotNull
     @Size(min=11,max=11)
-    @Pattern(regexp="^\\(\\d{2}\\)9\\d{4}-\\d{4}")
     private String phone;
 
     @Column(name="CPF")

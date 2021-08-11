@@ -24,4 +24,5 @@ public class GeneralConfiguration {
         return new ExceptionDetails();
     }
 
+
 }

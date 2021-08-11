@@ -5,6 +5,7 @@ import com.nutrili.misc.RoleConst;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.external.database.repository.RoleRepository;
 import com.nutrili.external.database.repository.UserRepository;
+import com.nutrili.service.SmsService;
 import com.nutrili.service.ValidateTokenService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collection;
+import javax.validation.Valid;
+import java.security.Principal;
+import java.util.*;
+
 
 @RestController
 @RequestMapping("/user")
@@ -48,12 +53,28 @@ public class UserController {
     @Autowired
     ValidateTokenService validateTokenService;
 
+    @Autowired
+    SmsService smsService;
+
+
 
     @PostMapping(value = "/insertUser")
-    public void insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization)
+    public void insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization, Principal principal)
     {
-        System.out.print("\n aoba"+authorization);
+       // SimpleMailMessage message = new SimpleMailMessage();
+        //smsService.send();
+        //InMemoryTokenStore a = new InMemoryTokenStore();
+        //a.readAccessToken("aaaaaa");
+        //System.out.print("\n aoba"+authorization);
+        //validateTokenService.validateToken(authorization);
+    }
+
+    @PostMapping(value="/smsToken")
+    public ResponseEntity<?> smsToken(@RequestHeader(value="AOBARIZATION",required = true) String authorization, @RequestParam @Valid String phone, Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         validateTokenService.validateToken(authorization);
+        smsService.generateSmsToken("+"+phone);
+        return new ResponseEntity<String>("SMS was sent successfully",HttpStatus.OK);
+
     }
 
     @Secured({RoleConst.ROLE_ADMIN})

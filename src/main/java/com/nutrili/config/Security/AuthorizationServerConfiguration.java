@@ -1,4 +1,4 @@
-package com.nutrili.config;
+package com.nutrili.config.Security;
 
 import com.nutrili.service.NutriliUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

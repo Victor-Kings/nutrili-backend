@@ -14,6 +14,7 @@ public class NutriliUserDetailsService extends UserService implements UserDetail
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.print("\n yyyyyy"+username + "\n");
         User user = userRepository.findByEmail(username);
         if (user == null) {
             throw new UserNotFoundException();
