@@ -1,13 +1,11 @@
 package com.nutrili.service;
 
 import com.nutrili.exception.InvalidTokenException;
-import com.nutrili.misc.Properties;
+import com.nutrili.config.Properties;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Base64Utils;
 
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;

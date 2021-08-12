@@ -1,12 +1,12 @@
 package com.nutrili.exception;
 
-import com.nutrili.exception.models.ApplicationError;
+import com.nutrili.exception.ExceptionModel.ApplicationExceptionEnum;
 
 public class UserNotFoundException extends RuntimeException {
 
     public UserNotFoundException()
     {
-        super(ApplicationError.INVALID_CREDENTIALS.getMessage());
+        super(ApplicationExceptionEnum.INVALID_CREDENTIALS.getMessage());
     }
 
 }

@@ -54,6 +54,8 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
                     .userDetailsService(userDetailsService);
         }
 
+
+
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             clients

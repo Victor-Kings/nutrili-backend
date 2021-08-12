@@ -1,4 +1,4 @@
-package com.nutrili.exception;
+package com.nutrili.exception.ExceptionModel;
 
 import lombok.Builder;
 import lombok.Data;

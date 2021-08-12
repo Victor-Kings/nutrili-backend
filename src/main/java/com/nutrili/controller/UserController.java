@@ -72,7 +72,7 @@ public class UserController {
     @PostMapping(value="/smsToken")
     public ResponseEntity<?> smsToken(@RequestHeader(value="AOBARIZATION",required = true) String authorization, @RequestParam @Valid String phone, Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         validateTokenService.validateToken(authorization);
-        smsService.generateSmsToken("+"+phone);
+        smsService.generateSmsToken(phone);
         return new ResponseEntity<String>("SMS was sent successfully",HttpStatus.OK);
 
     }

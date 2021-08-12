@@ -9,12 +9,16 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 @Transactional
 public interface SmsTokenRepository extends JpaRepository<SmsToken,Integer> {
     @Modifying
     @Query("delete from SmsToken pt where :currentTime - pt.createTime >1500")
     void deleteOldTokens(@Param("currentTime")long currentTime);
+    @Modifying
+    @Query("delete from SmsToken pt where number= :searchNumber")
+    void deleteTokenByPhone(@Param("searchNumber") String phone);
 
-    SmsToken findByNumberAndCode(@Param("number") String phone, @Param("code") String code);
+    Optional<SmsToken> findByNumberAndCode(@Param("number") String phone, @Param("code") String code);
 }

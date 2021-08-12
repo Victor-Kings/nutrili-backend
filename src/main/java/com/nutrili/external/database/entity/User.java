@@ -26,46 +26,46 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
+    //@NotNull
     @Setter(value= AccessLevel.NONE)
     private Long id;
 
     @Column(name = "nameUser")
-    @NotNull
-    @Size(min=6, max=30)
+    //@NotNull
+    //@Size(min=6, max=30)
     private String name;
 
     @Column(name= "gender")
-    @NotNull
-    @Size(max=1)
+    //@NotNull
+    //@Size(max=1)
     private String gender;
 
     @Column(name="birth")
-    @NotNull
+    //@NotNull
     private Date birth;
 
     @Column(name="phone")
-    @NotNull
-    @Size(min=11,max=11)
+    //@NotNull
+    //@Size(min=11,max=11)
     private String phone;
 
     @Column(name="CPF")
-    @NotNull
-    @CPF
+    //@NotNull
+    //@CPF
     private String cpf;
 
     @Column(name= "email")
-    @Email
-    @NotNull
+    //@Email
+    //@NotNull
     private String email;
 
     @JsonIgnore
     @Column(name="passwordUser")
-    @NotNull
+    //@NotNull
     private String password;
 
     @Column(name="linkImage")
-    @NotNull
+    //@NotNull
     private String image;
 
     @ManyToMany(fetch = FetchType.EAGER)

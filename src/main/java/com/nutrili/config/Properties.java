@@ -1,4 +1,4 @@
-package com.nutrili.misc;
+package com.nutrili.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,4 +21,7 @@ public class Properties {
 
     @Value("${twilio.phone}")
     private String phone;
+
+    @Value("${twilio.login.secret}")
+    private String twilioPassword;
 }

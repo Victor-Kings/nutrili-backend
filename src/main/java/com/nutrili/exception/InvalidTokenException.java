@@ -1,11 +1,11 @@
 package com.nutrili.exception;
 
-import com.nutrili.exception.models.ApplicationError;
+import com.nutrili.exception.ExceptionModel.ApplicationExceptionEnum;
 
 public class InvalidTokenException extends RuntimeException{
 
     public InvalidTokenException()
     {
-        super(ApplicationError.INVALID_TOKEN.getMessage());
+        super(ApplicationExceptionEnum.INVALID_TOKEN.getMessage());
     }
 }

@@ -1,11 +1,11 @@
 package com.nutrili.exception;
 
-import com.nutrili.exception.models.ApplicationError;
+import com.nutrili.exception.ExceptionModel.ApplicationExceptionEnum;
 
 public class PhoneNotFoundException extends RuntimeException{
 
     public PhoneNotFoundException()
     {
-        super(ApplicationError.INVALID_PHONE.getMessage());
+        super(ApplicationExceptionEnum.INVALID_PHONE.getMessage());
     }
 }
