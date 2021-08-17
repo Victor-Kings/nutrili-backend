@@ -21,6 +21,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name="USER_NUTRILI")
 public class User implements UserDetails {
 

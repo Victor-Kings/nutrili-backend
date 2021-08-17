@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.twilio.Twilio;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.util.Optional;
 
 @Service
@@ -26,8 +27,14 @@ public class SmsService {
 
     private void send(String toPhone,String smsCode)
     {
+        byte[] emojiBytes = new byte[]{(byte)0xF0, (byte)0x9F, (byte)0x8D, (byte)0xB2};
+        String emojiAsString = new String(emojiBytes, Charset.forName("UTF-8"));
+
+        byte[] emojiBytes2 = new byte[]{(byte)0xF0, (byte)0x9F, (byte)0x91, (byte)0x8d};
+        String emojiAsString2 = new String(emojiBytes2, Charset.forName("UTF-8"));
+
         Twilio.init(properties.getAccountSid(),properties.getAuthToken());
-        Message message = Message.creator(new PhoneNumber(toPhone), new PhoneNumber(properties.getPhone()), "Código de acesso Nutrili: "+smsCode)
+        Message message = Message.creator(new PhoneNumber(toPhone), new PhoneNumber(properties.getPhone()), emojiAsString+emojiAsString2+" Código de acesso Nutrili: "+smsCode)
                 .create();
     }
 
