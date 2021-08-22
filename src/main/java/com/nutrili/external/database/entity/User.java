@@ -69,7 +69,8 @@ public class User implements UserDetails {
     //@NotNull
     private String image;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    //mudar
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinTable(name="user_role",
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="role_id")

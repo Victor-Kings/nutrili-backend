@@ -2,6 +2,8 @@ package com.nutrili.controller;
 
 
 import com.nutrili.external.DTO.UserDTO;
+import com.nutrili.external.database.entity.User;
+import com.nutrili.Utils.RoleConst;
 import com.nutrili.service.NutriliUserDetailsService;
 import com.nutrili.service.SmsService;
 import com.nutrili.service.ValidateTokenService;
@@ -9,8 +11,14 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.util.Collection;
 
 
 @RestController
@@ -29,10 +37,16 @@ public class UserController {
     @Autowired
     NutriliUserDetailsService userDetailsService;
 
+    @Autowired
+    DefaultTokenServices defaultTokenServices;
+
+    @Autowired
+    TokenStore tokenStore;
+
 
 
     @PostMapping(value = "/insertUser")
-    public ResponseEntity<?> insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization, @Valid UserDTO userDTO)
+    public ResponseEntity<?> insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization,  @RequestBody UserDTO userDTO)
     {
         validateTokenService.validateToken(authorization);
         userDetailsService.insertUser(userDTO);
@@ -71,12 +85,12 @@ public class UserController {
     ){
         Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
         return new ResponseEntity<Page<User>>(userRepository.findAll(pageable), HttpStatus.OK);
-    }
+    }*/
 
-    @Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
+    @Secured({RoleConst.ROLE_NUTRITIONIST, RoleConst.ROLE_PATIENT})
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(){
-       User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientIdAndUserName(
                 "teste", user.getUsername());
         for (OAuth2AccessToken token : tokens) {
@@ -86,11 +100,12 @@ public class UserController {
     }
 
 
-    @Secured({RoleConst.ROLE_ADMIN})
+    @Secured({RoleConst.ROLE_NUTRITIONIST, RoleConst.ROLE_PATIENT})
     @RequestMapping(value = "/vruum", method = RequestMethod.GET)
     public ResponseEntity<?> vrum()
     {
+        System.out.print((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return new ResponseEntity<String>("vrrum",HttpStatus.OK);
-    }*/
+    }
 
 }

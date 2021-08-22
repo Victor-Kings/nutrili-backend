@@ -26,9 +26,6 @@ public class NutriliUserDetailsService extends UserService implements UserDetail
     SmsService smsService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
     Properties properties;
 
     @Override
@@ -41,7 +38,9 @@ public class NutriliUserDetailsService extends UserService implements UserDetail
 
         if(Integer.parseInt(userData.get(1))==1)
         {
-            user = userRepository.findByEmail(userData.get(0));
+            Optional<User> userValidation =  userRepository.findByEmail(userData.get(0));
+            if(userValidation.isPresent())
+                user = userValidation.get();
         } else {
            Optional<SmsToken>  smsToken= smsService.findPhoneCode(userData.get(0),userData.get(2));
            if(smsToken.isPresent())

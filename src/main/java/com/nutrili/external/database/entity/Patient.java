@@ -4,9 +4,7 @@ package com.nutrili.external.database.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -28,6 +26,10 @@ public class Patient extends User{
     @DecimalMin(value = "1.00")
     @DecimalMax(value="200.00")
     private Double weight;
+
+    @ManyToOne
+    @JoinColumn(name = "nutritionist")
+    private Nutritionist nutritionist;
 
 
 }

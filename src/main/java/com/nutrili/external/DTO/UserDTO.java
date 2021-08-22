@@ -2,6 +2,7 @@ package com.nutrili.external.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nutrili.external.database.entity.Role;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
@@ -14,12 +15,11 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public class UserDTO {
 
     @NotNull
-    private boolean isNutritionist;
+    private boolean nutritionist;
 
     private double height;
 
@@ -27,7 +27,9 @@ public class UserDTO {
 
     private int score;
 
-    private int crn;
+    private String crn;
+
+    private String crnType;
 
     @NotNull
     @Size(min=6, max=30)

@@ -1,4 +1,4 @@
-package com.nutrili.misc;
+package com.nutrili.Utils;
 
 import com.nutrili.external.database.entity.User;
 import org.springframework.security.core.context.SecurityContextHolder;

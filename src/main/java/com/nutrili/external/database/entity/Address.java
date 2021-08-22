@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 @Entity
 @Getter
 @Setter
@@ -53,4 +52,15 @@ public class Address {
     @NotNull
     private String number;
 
+    public Address(String cep, String state, String city, String neighborhood, String street, String number) {
+        this.cep = cep;
+        this.state = state;
+        this.city = city;
+        this.neighborhood = neighborhood;
+        this.street = street;
+        this.number = number;
+    }
+
+    public Address() {
+    }
 }

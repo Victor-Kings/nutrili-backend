@@ -3,10 +3,9 @@ package com.nutrili.external.database.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,10 +15,17 @@ public class Nutritionist extends User{
 
     @Column(name = "CRN")
     @NotNull
-    private int crn;
+    private String crn;
 
     @Column(name = "score")
     @NotNull
     private int score;
+
+    @Column(name= "CRNType")
+    @NotNull
+    private String crnType;
+
+    @OneToMany(mappedBy="nutritionist",cascade={CascadeType.PERSIST})
+    private List<Patient> patientList;
 
 }
