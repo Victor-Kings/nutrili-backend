@@ -36,7 +36,7 @@ public class SmsService {
     public void generateSmsToken(String phone)
     {
         if(!userService.getUserByPhone(phone)) {
-            throw new PhoneNotFoundException();
+            userService.insertUserByPhone(phone);
         }
         String smsCode= createSMSCode();
         smsTokenRepository.deleteOldTokens((System.currentTimeMillis()));

@@ -37,17 +37,19 @@ public class UserService {
         if(userRepository.findByEmail(userDTO.getEmail()).isPresent())
             throw new RepeatedEmailException();
 
-        if(userDTO.isNutritionist())
-        {
             Nutritionist nutritionist = new Nutritionist();
             DtoToNutritionist(userDTO,nutritionist);
             nutritionistRepository.save(nutritionist);
 
-        } else {
-            Patient patient = new Patient();
-            DtoToPatient(userDTO,patient);
-            patientRepository.save(patient);
-        }
+    }
+
+    public void insertUserByPhone(String phone)
+    {
+        Patient patient = new Patient();
+        patient.setPhone(phone);
+        Role role = new Role("ROLE_PATIENT");
+        patient.setRoles(Arrays.asList(role));
+        patientRepository.save(patient);
     }
 
     public Boolean getUserByPhone(String phone)
@@ -60,7 +62,7 @@ public class UserService {
         return false;
     }
 
-    public void DtoToNutritionist(UserDTO userDTO, Nutritionist nutritionist)
+    private void DtoToNutritionist(UserDTO userDTO, Nutritionist nutritionist)
     {
         Role role = new Role("ROLE_NUTRITIONIST");
 
@@ -76,24 +78,6 @@ public class UserService {
         nutritionist.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         nutritionist.setPhone(userDTO.getPhone());
         nutritionist.setRoles(Arrays.asList(role));
-    }
-
-    public void DtoToPatient(UserDTO userDTO, Patient patient)
-    {
-        Role role = new Role("ROLE_PATIENT");
-
-        patient.setBirth(userDTO.getBirth());
-        patient.setCpf(userDTO.getCpf());
-        patient.setEmail(userDTO.getEmail());
-        patient.setGender(userDTO.getGender());
-        patient.setImage(userDTO.getImage());
-        patient.setName(userDTO.getName());
-        patient.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        patient.setPhone(userDTO.getPhone());
-        patient.setWeight(userDTO.getWeight());
-        patient.setHeight(userDTO.getHeight());
-        patient.setRoles(Arrays.asList(role));
-
     }
 
 }
