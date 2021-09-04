@@ -1,7 +1,9 @@
 package com.nutrili.controller;
 
 
+import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserDTO;
+import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.Utils.RoleConst;
 import com.nutrili.service.NutriliUserDetailsService;
@@ -61,6 +63,22 @@ public class UserController {
         smsService.generateSmsToken(phone);
         return new ResponseEntity<String>("SMS was sent successfully",HttpStatus.OK);
 
+    }
+
+    @GetMapping(value="/isNewUser")
+    @Secured({RoleConst.ROLE_PATIENT})
+    public ResponseEntity<?> isNewUser()
+    {
+        NewUserDTO newUserDTO =userDetailsService.isNewUser((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return new ResponseEntity<NewUserDTO>(newUserDTO,HttpStatus.OK);
+    }
+
+    @PutMapping(value="/updateUser")
+    @Secured({RoleConst.ROLE_NUTRITIONIST,RoleConst.ROLE_PATIENT})
+    public ResponseEntity<?> updateUser( @Valid @RequestBody UserDTO userDTO)
+    {
+        userDetailsService.updateUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),userDTO);
+        return new ResponseEntity<String>("User was modified successfully",HttpStatus.OK);
     }
 /*
     @Secured({RoleConst.ROLE_ADMIN})

@@ -21,69 +21,55 @@ public class UserDTO {
     @NotNull
     private boolean nutritionist;
 
-    private double height;
+    private Double height;
 
-    private double weight;
+    private Double weight;
 
-    private int score;
+    private Integer score;
 
     private String crn;
 
     private String crnType;
 
-    @NotNull
     @Size(min=6, max=30)
     private String name;
 
-    @NotNull
     @Size(max=1)
     private String gender;
 
-    @NotNull
     private Date birth;
 
-    @NotNull
     @Size(min=13,max=13)
     private String phone;
 
-    @NotNull
     @CPF
     private String cpf;
 
     @Email
-    @NotNull
     private String email;
 
     @Size(min=5,max=30)
-    @NotNull
     private String password;
 
-    @NotNull
     private String image;
 
-    @NotNull
     @Pattern(regexp="^[0-9]{5}-[0-9]{3}")
     @Size(min=9,max = 9)
     private String cep;
 
-    @NotNull
     @Size(min=2,max=2)
     private String state;
 
     @Size(min= 1)
-    @NotNull
     private String city;
 
     @Size(min= 1)
-    @NotNull
     private String neighborhood;
 
     @Size(min=1)
-    @NotNull
     private String street;
 
     @Size(min=1)
-    @NotNull
     private String number;
 
 }

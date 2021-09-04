@@ -56,7 +56,7 @@ public class User implements UserDetails {
     private String cpf;
 
     @Column(name= "email")
-    //@Email
+    @Email
     //@NotNull
     private String email;
 

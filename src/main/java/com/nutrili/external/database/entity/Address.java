@@ -22,34 +22,27 @@ public class Address {
     private int id;
 
     @Column(name = "CEP")
-    @NotNull
-    @Pattern(regexp="^[0-9]{5}-[0-9]{3}")
     @Size(min=9,max = 9)
     private String cep;
 
     @Column(name="stateAddress")
-    @NotNull
     @Size(min=2,max=2)
     private String state;
 
     @Column(name = "city")
     @Size(min= 1)
-    @NotNull
     private String city;
 
     @Column(name= "neighborhood")
     @Size(min= 1)
-    @NotNull
     private String neighborhood;
 
     @Column(name= "street")
     @Size(min=1)
-    @NotNull
     private String street;
 
     @Column(name= "number")
     @Size(min=1)
-    @NotNull
     private String number;
 
     public Address(String cep, String state, String city, String neighborhood, String street, String number) {
