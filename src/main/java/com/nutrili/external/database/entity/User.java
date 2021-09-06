@@ -27,46 +27,39 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@NotNull
     @Setter(value= AccessLevel.NONE)
     private Long id;
 
     @Column(name = "nameUser")
-    //@NotNull
-    //@Size(min=6, max=30)
+    @Size(min=1, max=30)
     private String name;
 
     @Column(name= "gender")
-    //@NotNull
-    //@Size(max=1)
+    @Size(min=1)
     private String gender;
 
     @Column(name="birth")
-    //@NotNull
     private Date birth;
 
     @Column(name="phone")
-    //@NotNull
-    //@Size(min=11,max=11)
+    @NotNull
+    @Size(min=11,max=11)
     private String phone;
 
     @Column(name="CPF")
-    //@NotNull
-    //@CPF
+    @CPF
     private String cpf;
 
+    @NotNull
     @Column(name= "email")
     @Email
-    //@NotNull
     private String email;
 
     @JsonIgnore
     @Column(name="passwordUser")
-    //@NotNull
     private String password;
 
     @Column(name="linkImage")
-    //@NotNull
     private String image;
 
     //mudar

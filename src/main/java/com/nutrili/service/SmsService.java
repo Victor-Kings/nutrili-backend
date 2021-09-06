@@ -50,7 +50,7 @@ public class SmsService {
     }
 
     private String createSMSCode() {
-        return  RandomStringUtils.random(8, true, true).toUpperCase().toString();
+        return  RandomStringUtils.random(6, true, true).toUpperCase().toString();
     }
 
     public Optional <SmsToken> findPhoneCode(String phone, String code) {

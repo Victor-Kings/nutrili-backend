@@ -31,15 +31,15 @@ public class UserDTO {
 
     private String crnType;
 
-    @Size(min=6, max=30)
+    @Size(min=1, max=30)
     private String name;
 
-    @Size(max=1)
+    @Size(min=1)
     private String gender;
 
     private Date birth;
 
-    @Size(min=13,max=13)
+    @Size(min=11,max=11)
     private String phone;
 
     @CPF

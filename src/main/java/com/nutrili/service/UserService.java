@@ -47,6 +47,7 @@ public class UserService {
     public void insertUserByPhone(String phone) {
         Patient patient = new Patient();
         patient.setPhone(phone);
+        patient.setEmail(phone);
         Role role = new Role("ROLE_PATIENT");
         patient.setRoles(Arrays.asList(role));
         patientRepository.save(patient);

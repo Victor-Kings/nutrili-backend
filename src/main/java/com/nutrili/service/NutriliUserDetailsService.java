@@ -31,34 +31,44 @@ public class NutriliUserDetailsService extends UserService implements UserDetail
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
+        if(username==null || username.equals(""))
+            throw new RuntimeException("Unhandled Exception");
+
         List<String> userData = Arrays.stream(StringUtils.split(
                 username, ":")).collect(Collectors.toList());
 
         User user = null;
-
-        if(Integer.parseInt(userData.get(1))==1)
-        {
-            Optional<User> userValidation =  userRepository.findByEmail(userData.get(0));
-            if(userValidation.isPresent())
-                user = userValidation.get();
+        if(userData.size()>1) {
+            if (Integer.parseInt(userData.get(1)) == 1) {
+                Optional<User> userValidation = userRepository.findByEmail(userData.get(0));
+                if (userValidation.isPresent())
+                    user = userValidation.get();
+            } else {
+                Optional<SmsToken> smsToken = smsService.findPhoneCode(userData.get(0), userData.get(2));
+                if (smsToken.isPresent()) {
+                    Optional<User> userValidation = userRepository.findByPhone(userData.get(0));
+                    if (userValidation.isPresent()) {
+                        user = userValidation.get();
+                        user.setPassword(passwordEncoder.encode(properties.getTwilioPassword()));
+                    }
+                    smsService.deletePhoneByCode(userData.get(0));
+                }
+            }
         } else {
-           Optional<SmsToken>  smsToken= smsService.findPhoneCode(userData.get(0),userData.get(2));
-           if(smsToken.isPresent())
-           {
-             Optional<User> userValidation =  userRepository.findByPhone(userData.get(0));
-             if(userValidation.isPresent())
-             {
-                 user = userValidation.get();
-                 user.setPassword(passwordEncoder.encode(properties.getTwilioPassword()));
-             }
-           }
+                Optional<User>userValidation = userRepository.findByEmail(userData.get(0));
+                if (userValidation.isPresent())
+                    user = userValidation.get();
+                else {
+                    userValidation = userRepository.findByPhone(userData.get(0));
+                    if (userValidation.isPresent())
+                        user = userValidation.get();
+                }
         }
+
         if(user==null)
         {
             throw new UserNotFoundException();
         }
-
-        smsService.deletePhoneByCode(userData.get(0));
 
         return user;
 

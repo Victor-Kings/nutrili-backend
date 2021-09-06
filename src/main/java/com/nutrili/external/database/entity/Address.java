@@ -21,6 +21,7 @@ public class Address {
     @Setter(value= AccessLevel.NONE)
     private int id;
 
+    @Pattern(regexp="^[0-9]{5}-[0-9]{3}")
     @Column(name = "CEP")
     @Size(min=9,max = 9)
     private String cep;

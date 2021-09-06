@@ -18,7 +18,6 @@ public class Nutritionist extends User{
     private String crn;
 
     @Column(name = "score")
-    @NotNull
     private int score;
 
     @Column(name= "CRNType")

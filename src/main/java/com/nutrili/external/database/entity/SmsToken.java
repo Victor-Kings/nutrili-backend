@@ -24,7 +24,7 @@ public class SmsToken {
 
     @Column(name = "tokenCode")
     @NotNull
-    @Size(min = 8,max=8)
+    @Size(min = 6,max=6)
     private String code;
 
     @Column(name = "createTime")
