@@ -1,5 +1,6 @@
 package com.nutrili.service;
 
+import com.nutrili.Utils.GenericMethods;
 import com.nutrili.exception.RepeatedEmailException;
 import com.nutrili.exception.RepeatedPhoneException;
 import com.nutrili.external.DTO.NewUserDTO;
@@ -52,65 +53,49 @@ public class UserService {
     }
 
     public void updateUser(User user, UserDTO userDTO) {
-        if (userDTO.getBirth() != null)
-            user.setBirth(userDTO.getBirth());
 
-        if (userDTO.getEmail() != null)
-            user.setEmail(userDTO.getEmail());
+        user.setBirth(GenericMethods.nvl(userDTO.getBirth(),user.getBirth()));
 
-        if (userDTO.getCpf() != null)
-            user.setCpf(userDTO.getCpf());
+        user.setEmail(GenericMethods.nvl(userDTO.getEmail(),user.getEmail()));
 
-        if (userDTO.getName() != null)
-            user.setName(userDTO.getName());
+        user.setCpf(GenericMethods.nvl(userDTO.getCpf(),user.getCpf()));
 
-        if (userDTO.getGender() != null)
-            user.setGender(userDTO.getGender());
+        user.setName(GenericMethods.nvl(userDTO.getName(),user.getName()));
 
-        if (userDTO.getBirth() != null)
-            user.setBirth(userDTO.getBirth());
+        user.setGender(GenericMethods.nvl(userDTO.getGender(),user.getGender()));
 
-        if (userDTO.getImage() != null)
-            user.setImage(userDTO.getImage());
+        user.setBirth(GenericMethods.nvl(userDTO.getBirth(),user.getBirth()));
+
+        user.setImage(GenericMethods.nvl(userDTO.getImage(),user.getImage()));
 
         if (user.getAddressId() != null) {
-            if (userDTO.getCep() != null)
-                user.getAddressId().setCep(userDTO.getCep());
 
-            if (userDTO.getState() != null)
-                user.getAddressId().setState(userDTO.getState());
+            user.getAddressId().setCep(GenericMethods.nvl(userDTO.getCep(),user.getAddressId().getCep()));
 
-            if (userDTO.getCity() != null)
-                user.getAddressId().setCity(userDTO.getCity());
+            user.getAddressId().setState(GenericMethods.nvl(userDTO.getState(),user.getAddressId().getState()));
 
-            if (userDTO.getNeighborhood() != null)
-                user.getAddressId().setNeighborhood(userDTO.getNeighborhood());
+            user.getAddressId().setCity(GenericMethods.nvl(userDTO.getCity(),user.getAddressId().getCity()));
 
-            if (userDTO.getStreet() != null)
-                user.getAddressId().setStreet(userDTO.getStreet());
+            user.getAddressId().setNeighborhood(GenericMethods.nvl(userDTO.getNeighborhood(),user.getAddressId().getNeighborhood()));
 
-            if (userDTO.getNumber() != null)
-                user.getAddressId().setNumber(userDTO.getNumber());
+            user.getAddressId().setStreet(GenericMethods.nvl(userDTO.getStreet(),user.getAddressId().getStreet()));
+
+            user.getAddressId().setNumber(GenericMethods.nvl(userDTO.getNumber(),user.getAddressId().getNumber()));
+
         } else {
             Address address = new Address();
 
-            if (userDTO.getCep() != null)
-                address.setCep(userDTO.getCep());
+           address.setCep(GenericMethods.nvl(userDTO.getCep(),null));
 
-            if (userDTO.getState() != null)
-                address.setState(userDTO.getState());
+            address.setState(GenericMethods.nvl(userDTO.getState(),null));
 
-            if (userDTO.getCity() != null)
-                address.setCity(userDTO.getCity());
+            address.setCity(GenericMethods.nvl(userDTO.getCity(),null));
 
-            if (userDTO.getNeighborhood() != null)
-                address.setNeighborhood(userDTO.getNeighborhood());
+            address.setNeighborhood(GenericMethods.nvl(userDTO.getNeighborhood(),null));
 
-            if (userDTO.getStreet() != null)
-                address.setStreet(userDTO.getStreet());
+            address.setStreet(GenericMethods.nvl(userDTO.getStreet(),null));
 
-            if (userDTO.getNumber() != null)
-                address.setNumber(userDTO.getNumber());
+            address.setNumber(GenericMethods.nvl(userDTO.getNumber(),null));
 
             user.setAddressId(address);
         }
@@ -118,14 +103,11 @@ public class UserService {
         if (userDTO.isNutritionist()) {
             Nutritionist nutritionist = (Nutritionist) user;
 
-            if (userDTO.getCrn() != null)
-                nutritionist.setCrn(userDTO.getCrn());
+            nutritionist.setCrn(GenericMethods.nvl(userDTO.getCrn(),nutritionist.getCrn()));
 
-            if (userDTO.getScore() != null)
-                nutritionist.setScore(userDTO.getScore());
+            nutritionist.setScore(GenericMethods.nvl(userDTO.getScore(),nutritionist.getScore()));
 
-            if (userDTO.getCrnType() != null)
-                nutritionist.setCrnType(userDTO.getCrnType());
+            nutritionist.setCrnType(GenericMethods.nvl(userDTO.getCrnType(),nutritionist.getCrnType()));
 
             nutritionistRepository.save(nutritionist);
 
@@ -133,11 +115,9 @@ public class UserService {
         } else {
             Patient patient = (Patient) user;
 
-            if (userDTO.getHeight() != null)
-                patient.setHeight(userDTO.getHeight());
+            patient.setHeight(GenericMethods.nvl(userDTO.getHeight(),patient.getHeight()));
 
-            if (userDTO.getWeight() != null)
-                patient.setWeight(userDTO.getWeight());
+            patient.setWeight(GenericMethods.nvl(userDTO.getWeight(),patient.getWeight()));
 
             patientRepository.save(patient);
         }
