@@ -52,7 +52,6 @@ public class User implements UserDetails {
 
     @NotNull
     @Column(name= "email")
-    @Email
     private String email;
 
     @JsonIgnore
