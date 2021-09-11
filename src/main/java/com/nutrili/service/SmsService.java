@@ -1,6 +1,5 @@
 package com.nutrili.service;
 
-import com.nutrili.exception.PhoneNotFoundException;
 import com.nutrili.external.database.entity.SmsToken;
 import com.nutrili.external.database.repository.SmsTokenRepository;
 import com.nutrili.config.Properties;

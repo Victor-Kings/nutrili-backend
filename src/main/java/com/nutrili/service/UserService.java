@@ -3,17 +3,14 @@ package com.nutrili.service;
 import com.nutrili.Utils.GenericMethods;
 import com.nutrili.exception.RepeatedEmailException;
 import com.nutrili.exception.RepeatedPhoneException;
-import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.*;
 import com.nutrili.external.database.repository.NutritionistRepository;
 import com.nutrili.external.database.repository.PatientRepository;
 import com.nutrili.external.database.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -132,12 +129,11 @@ public class UserService {
         return false;
     }
 
-    public NewUserDTO isNewUser(Patient patient) {
-        NewUserDTO newUserDTO = new NewUserDTO();
-        if (patient.getName() != null) {
-            newUserDTO.setNewUser(false);
+    public Boolean isNewUser(User user) {
+        if (user.getName() != null) {
+            return false;
         }
-        return newUserDTO;
+        return true;
     }
 
     private void DtoToNutritionist(UserDTO userDTO, Nutritionist nutritionist) {

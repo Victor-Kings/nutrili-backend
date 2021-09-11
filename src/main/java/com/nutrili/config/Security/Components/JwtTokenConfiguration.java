@@ -21,6 +21,9 @@ public class JwtTokenConfiguration {
     @Autowired
     private NutriliUserDetailsService userDetailsService;
 
+    @Autowired
+    JwtUserAuthenticationConverter jwtUserAuthenticationConverter;
+
 
     @Bean
     public TokenStore tokenStore() {
@@ -34,13 +37,12 @@ public class JwtTokenConfiguration {
         return defaultUserAuthenticationConverter;
     }
 
-
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setSigningKey(signingKey);
         ((DefaultAccessTokenConverter) converter.getAccessTokenConverter())
-                .setUserTokenConverter(userAuthenticationConverter());
+                .setUserTokenConverter(jwtUserAuthenticationConverter);
         return converter;
     }
 

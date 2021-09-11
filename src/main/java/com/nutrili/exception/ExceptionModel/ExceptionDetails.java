@@ -1,6 +1,5 @@
 package com.nutrili.exception.ExceptionModel;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
