@@ -1,7 +1,9 @@
 package com.nutrili.controller;
 
 
+import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserDTO;
+import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.Utils.RoleConst;
 import com.nutrili.service.NutriliUserDetailsService;
@@ -70,6 +72,15 @@ public class UserController {
         userDetailsService.updateUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),userDTO);
         return new ResponseEntity<String>("User was modified successfully",HttpStatus.OK);
     }
+
+    @GetMapping(value="/isNewUser")
+    @Secured({RoleConst.ROLE_PATIENT})
+    public ResponseEntity<?> isNewUser()
+    {
+        NewUserDTO newUserDTO =userDetailsService.isNewUser((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return new ResponseEntity<NewUserDTO>(newUserDTO,HttpStatus.OK);
+    }
+
 /*
     @Secured({RoleConst.ROLE_ADMIN})
     @RequestMapping(value = "", method = RequestMethod.POST)

@@ -50,7 +50,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
             endpoints
                     .tokenStore(this.tokenStore)
                     .authenticationManager(this.authenticationManager)
-                    .tokenEnhancer(jwtAccessTokenConverter)
+                    .accessTokenConverter(jwtAccessTokenConverter)
                     .reuseRefreshTokens(false)
                     .userDetailsService(userDetailsService);
         }

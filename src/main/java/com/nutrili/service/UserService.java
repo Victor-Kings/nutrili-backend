@@ -3,6 +3,7 @@ package com.nutrili.service;
 import com.nutrili.Utils.GenericMethods;
 import com.nutrili.exception.RepeatedEmailException;
 import com.nutrili.exception.RepeatedPhoneException;
+import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.*;
 import com.nutrili.external.database.repository.NutritionistRepository;
@@ -129,11 +130,12 @@ public class UserService {
         return false;
     }
 
-    public Boolean isNewUser(User user) {
-        if (user.getName() != null) {
-            return false;
+    public NewUserDTO  isNewUser(Patient patient) {
+        NewUserDTO newUserDTO = new NewUserDTO();
+        if (patient.getName() != null) {
+            newUserDTO.setNewUser(false);
         }
-        return true;
+       return newUserDTO;
     }
 
     private void DtoToNutritionist(UserDTO userDTO, Nutritionist nutritionist) {
