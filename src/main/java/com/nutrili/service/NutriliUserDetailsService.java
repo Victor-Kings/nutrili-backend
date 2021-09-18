@@ -8,6 +8,7 @@ import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.*;
+import com.nutrili.external.database.repository.AnswerRepository;
 import com.nutrili.external.database.repository.NutritionistRepository;
 import com.nutrili.external.database.repository.PatientRepository;
 import com.nutrili.external.database.repository.UserRepository;
@@ -35,16 +36,19 @@ public class NutriliUserDetailsService implements UserDetailsService {
     Properties properties;
 
     @Autowired
-    protected UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    protected PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private NutritionistRepository nutritionistRepository;
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private AnswerRepository answerRepository;
 
 
     @Override
@@ -204,9 +208,14 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     public NewUserDTO isNewUser(Patient patient) {
         NewUserDTO newUserDTO = new NewUserDTO();
-        if (patient.getName() != null) {
+        if (patient.getName() != null)
             newUserDTO.setNewUser(false);
-        }
+
+        Optional<QuestionAnswer> questionAnswer = answerRepository.findQuestion(patient.getId());
+
+        if(questionAnswer.isPresent())
+            newUserDTO.setAncientPlusComplete(true);
+
         return newUserDTO;
     }
 
