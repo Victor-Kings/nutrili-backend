@@ -19,7 +19,10 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.Collection;
 
 
@@ -79,6 +82,12 @@ public class UserController {
     {
         NewUserDTO newUserDTO =userDetailsService.isNewUser((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return new ResponseEntity<NewUserDTO>(newUserDTO,HttpStatus.OK);
+    }
+
+    @GetMapping(value="/validateCrn")
+    public ResponseEntity<?> validateCrn(@RequestHeader(value="AOBARIZATION",required = true) String authorization,@NotNull @RequestParam String crn, @NotNull @RequestParam String nome) throws IOException {
+        validateTokenService.validateToken(authorization);
+        return ResponseEntity.ok(userDetailsService.validateNutritionist(crn,nome));
     }
 
 /*
