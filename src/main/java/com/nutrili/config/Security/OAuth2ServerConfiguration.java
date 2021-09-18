@@ -36,7 +36,7 @@ public class OAuth2ServerConfiguration {
                     .permitAll()
                     .antMatchers("/user/smsToken")
                     .permitAll()
-                    .antMatchers("/user/validateCrn")
+                    .antMatchers("/nutritionist/validateCrn")
                     .permitAll()
                     .anyRequest()
                     .fullyAuthenticated()

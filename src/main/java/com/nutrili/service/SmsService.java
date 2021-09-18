@@ -22,7 +22,7 @@ public class SmsService {
     SmsTokenRepository smsTokenRepository;
 
     @Autowired
-    UserService userService;
+    NutriliUserDetailsService userService;
 
     private void send(String toPhone,String smsCode)
     {
