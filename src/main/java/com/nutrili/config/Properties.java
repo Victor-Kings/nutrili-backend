@@ -24,4 +24,7 @@ public class Properties {
 
     @Value("${twilio.login.secret}")
     private String twilioPassword;
+
+    @Value("${nutritionist.url}")
+    private String nutritionistUrl;
 }

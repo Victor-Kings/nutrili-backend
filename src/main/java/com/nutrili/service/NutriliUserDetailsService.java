@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class NutriliUserDetailsService extends UserService implements UserDetailsService {
@@ -34,7 +35,7 @@ public class NutriliUserDetailsService extends UserService implements UserDetail
         if(username==null || username.equals(""))
             throw new RuntimeException("Unhandled Exception");
 
-        List<String> userData = Arrays.stream(StringUtils.split(
+        List<String> userData = Stream.of(StringUtils.split(
                 username, ":")).collect(Collectors.toList());
 
         User user = null;
