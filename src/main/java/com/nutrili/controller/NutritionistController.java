@@ -20,16 +20,10 @@ public class NutritionistController {
     @Autowired
     ValidateTokenService validateTokenService;
 
-    @GetMapping("/getbycity")
+    @GetMapping("/getNutritionist")
     @Secured({RoleConst.ROLE_PATIENT})
-    public ResponseEntity getByCity(@NotNull @RequestParam String city) {
-        return ResponseEntity.ok(nutritionistService.findNutritionistByCity(city));
-    }
-
-    @GetMapping("/getbyname")
-    @Secured({RoleConst.ROLE_PATIENT})
-    public ResponseEntity getByName(@NotNull @RequestParam String name) {
-        return ResponseEntity.ok(nutritionistService.findNutritionistByName(name));
+    public ResponseEntity getByCity(@NotNull @RequestParam String searchParameter, @NotNull @RequestParam int searchMethod) {
+        return ResponseEntity.ok(nutritionistService.findNutritionist(searchParameter,searchMethod));
     }
 
     @GetMapping(value="/validateCrn")

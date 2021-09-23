@@ -24,26 +24,10 @@ public class NutritionistService {
     @Autowired
     Properties properties;
 
-    public List<NutritionistDTO> findNutritionistByCity(String city)
+    public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
     {
         List<NutritionistDTO> nutritionistDTOList = new ArrayList<>();
-        nutritionistRepository.findByCity("%"+city+"%").forEach(nutritionist -> {
-            NutritionistDTO nutritionistDTO = new NutritionistDTO();
-            nutritionistDTO.setCity(nutritionist.getAddressId().getCity());
-            nutritionistDTO.setName(nutritionist.getName());
-            nutritionistDTO.setState(nutritionist.getAddressId().getState());
-            nutritionistDTO.setScore(nutritionist.getScore());
-            nutritionistDTO.setId(nutritionist.getId());
-            nutritionistDTO.setProfilePicture(nutritionist.getImage());
-            nutritionistDTOList.add(nutritionistDTO);
-        });
-        return nutritionistDTOList;
-    }
-
-    public List<NutritionistDTO> findNutritionistByName(String name)
-    {
-        List<NutritionistDTO> nutritionistDTOList = new ArrayList<>();
-        nutritionistRepository.findByName("%"+name+"%").forEach(nutritionist -> {
+        (searchMethod==1?nutritionistRepository.findByCity("%"+searchParameter+"%"):nutritionistRepository.findByName("%"+searchParameter+"%")).forEach(nutritionist -> {
             NutritionistDTO nutritionistDTO = new NutritionistDTO();
             nutritionistDTO.setCity(nutritionist.getAddressId().getCity());
             nutritionistDTO.setName(nutritionist.getName());
