@@ -24,7 +24,7 @@ public class Nutritionist extends User{
     @NotNull
     private String crnType;
 
-    @OneToMany(mappedBy="nutritionist",cascade={CascadeType.PERSIST})
+    @OneToMany(mappedBy="nutritionist",cascade={CascadeType.ALL})
     private List<Patient> patientList;
 
 }

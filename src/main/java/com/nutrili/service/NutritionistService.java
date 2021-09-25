@@ -1,8 +1,11 @@
 package com.nutrili.service;
 
 import com.nutrili.config.Properties;
+import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.NutritionistDTO;
 import com.nutrili.external.DTO.ValidNutritionistDTO;
+import com.nutrili.external.database.entity.Nutritionist;
+import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.repository.NutritionistRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,6 +65,18 @@ public class NutritionistService {
             validNutritionistDTO.setNutritionist(false);
 
         return validNutritionistDTO;
+    }
+
+    public void assignNutritionist(long nutritionistId, Patient patient){
+       Optional<Nutritionist> nutritionistValidation= nutritionistRepository.findById(nutritionistId);
+       if(nutritionistValidation.isPresent()){
+           Nutritionist nutritionist = nutritionistValidation.get();
+           nutritionist.getPatientList().add(patient);
+           patient.setNutritionist(nutritionist);
+           nutritionistRepository.save(nutritionist);
+       } else {
+           throw new UserNotFoundException();
+       }
     }
 
 }
