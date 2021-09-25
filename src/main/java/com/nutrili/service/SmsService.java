@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.twilio.Twilio;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -38,12 +39,12 @@ public class SmsService {
             userService.insertUserByPhone(phone);
         }
         String smsCode= createSMSCode();
-        smsTokenRepository.deleteOldTokens((System.currentTimeMillis()));
+        smsTokenRepository.deleteOldTokens(new Date());
         deletePhoneByCode(phone);
         SmsToken smsToken = new SmsToken();
         smsToken.setCode(smsCode);
         smsToken.setNumber(phone);
-        smsToken.setCreateTime((System.currentTimeMillis()));
+        smsToken.setCreateTime(new Date());
         smsTokenRepository.save(smsToken);
         send("+55"+phone,smsCode);
     }

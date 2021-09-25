@@ -36,6 +36,13 @@ public class NutritionistController {
         return ResponseEntity.ok("selected nutritionist was assigned to the patient successfully");
     }
 
+    @PostMapping("/requestNutritionist")
+    @Secured({RoleConst.ROLE_PATIENT})
+    public ResponseEntity requestNutritionist(@NotNull @RequestParam long nutritionistId){
+        nutritionistService.requestNutritionist(nutritionistId,(Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        return ResponseEntity.ok("selected nutritionist received a request successfully");
+    }
+
     @GetMapping(value="/validateCrn")
     public ResponseEntity<?> validateCrn(@RequestHeader(value="AOBARIZATION",required = true) String authorization,@NotNull @RequestParam String crn, @NotNull @RequestParam String nome) throws IOException {
         validateTokenService.validateToken(authorization);

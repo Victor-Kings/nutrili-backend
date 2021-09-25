@@ -1,11 +1,14 @@
 package com.nutrili.service;
 
 import com.nutrili.config.Properties;
+import com.nutrili.exception.InvalidNutritionistRequest;
 import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.NutritionistDTO;
 import com.nutrili.external.DTO.ValidNutritionistDTO;
 import com.nutrili.external.database.entity.Nutritionist;
+import com.nutrili.external.database.entity.NutritionistApproval;
 import com.nutrili.external.database.entity.Patient;
+import com.nutrili.external.database.repository.NutritionistApprovalRepository;
 import com.nutrili.external.database.repository.NutritionistRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +32,9 @@ public class NutritionistService {
     @Autowired
     Properties properties;
 
+    @Autowired
+    NutritionistApprovalRepository nutritionistApprovalRepository;
+
     public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
     {
         List<NutritionistDTO> nutritionistDTOList = new ArrayList<>();
@@ -39,6 +46,7 @@ public class NutritionistService {
             nutritionistDTO.setScore(nutritionist.getScore());
             nutritionistDTO.setId(nutritionist.getId());
             nutritionistDTO.setProfilePicture(nutritionist.getImage());
+            nutritionistDTO.setPhone(nutritionist.getPhone());
             nutritionistDTOList.add(nutritionistDTO);
         });
         return nutritionistDTOList;
@@ -77,6 +85,24 @@ public class NutritionistService {
        } else {
            throw new UserNotFoundException();
        }
+    }
+
+    public void requestNutritionist(long nutritionistId, Patient patient){
+        if(nutritionistApprovalRepository.findRecentRequest(patient.getId(),new Date()).isEmpty()) {
+            Optional<Nutritionist> nutritionistValidation= nutritionistRepository.findById(nutritionistId);
+            if (nutritionistValidation.isPresent()) {
+                Nutritionist nutritionist = nutritionistValidation.get();
+                NutritionistApproval nutritionistApproval = new NutritionistApproval();
+                nutritionistApproval.setNutritionist(nutritionist);
+                nutritionistApproval.setDateOfRequest(new Date());
+                nutritionistApproval.setPatient(patient);
+                nutritionistApprovalRepository.save(nutritionistApproval);
+            } else {
+                throw new UserNotFoundException();
+            }
+        } else {
+            throw new InvalidNutritionistRequest();
+        }
     }
 
 }

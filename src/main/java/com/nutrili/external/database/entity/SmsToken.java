@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Data
 @Entity
@@ -29,5 +30,5 @@ public class SmsToken {
 
     @Column(name = "createTime")
     @NotNull
-    private long createTime;
+    private Date createTime;
 }

@@ -10,4 +10,5 @@ public class NutritionistDTO {
     private String city;
     private String state;
     private String profilePicture;
+    private String phone;
 }
