@@ -16,6 +16,7 @@ public interface SmsTokenRepository extends JpaRepository<SmsToken,Integer> {
     @Modifying
     @Query("delete from SmsToken pt where :currentTime - pt.createTime >'00:15:00'")
     void deleteOldTokens(@Param("currentTime") Date currentTime);
+
     @Modifying
     @Query("delete from SmsToken pt where number= :searchNumber")
     void deleteTokenByPhone(@Param("searchNumber") String phone);

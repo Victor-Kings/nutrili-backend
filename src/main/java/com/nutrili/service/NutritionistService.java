@@ -1,9 +1,12 @@
 package com.nutrili.service;
 
+import com.nutrili.Utils.GenericMethods;
 import com.nutrili.config.Properties;
 import com.nutrili.exception.InvalidNutritionistRequest;
 import com.nutrili.exception.UserNotFoundException;
+import com.nutrili.external.DTO.MeasureDTO;
 import com.nutrili.external.DTO.NutritionistDTO;
+import com.nutrili.external.DTO.NutritionistRequestDTO;
 import com.nutrili.external.DTO.ValidNutritionistDTO;
 import com.nutrili.external.database.entity.Nutritionist;
 import com.nutrili.external.database.entity.NutritionistApproval;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,13 +79,15 @@ public class NutritionistService {
         return validNutritionistDTO;
     }
 
-    public void assignNutritionist(long nutritionistId, Patient patient){
-       Optional<Nutritionist> nutritionistValidation= nutritionistRepository.findById(nutritionistId);
-       if(nutritionistValidation.isPresent()){
-           Nutritionist nutritionist = nutritionistValidation.get();
-           nutritionist.getPatientList().add(patient);
-           patient.setNutritionist(nutritionist);
-           nutritionistRepository.save(nutritionist);
+    public void assignNutritionist(long requestId, boolean approval){
+       Optional<NutritionistApproval> nutritionistApprovalValidation= nutritionistApprovalRepository.findById(requestId);
+       if(nutritionistApprovalValidation.isPresent()){
+           NutritionistApproval nutritionistApproval = nutritionistApprovalValidation.get();
+           nutritionistApproval.setApproval(approval);
+           if(approval){
+               nutritionistApproval.getPatient().setNutritionist(nutritionistApproval.getNutritionist());
+           }
+            nutritionistApprovalRepository.save(nutritionistApproval);
        } else {
            throw new UserNotFoundException();
        }
@@ -104,5 +110,28 @@ public class NutritionistService {
             throw new InvalidNutritionistRequest();
         }
     }
+
+    public List<NutritionistRequestDTO> getNutritionistRequest(long nutritionistId) {
+        List<NutritionistRequestDTO> nutritionistRequestDTOList = new ArrayList<>();
+        nutritionistApprovalRepository.findRequestBynutritionist(nutritionistId, new Date()).forEach(nutritionistApproval -> {
+            NutritionistRequestDTO nutritionistRequestDTO = new NutritionistRequestDTO();
+            MeasureDTO measureDTO = new MeasureDTO();
+            nutritionistRequestDTO.setRequestId(nutritionistApproval.getId());
+            nutritionistRequestDTO.setCpf(nutritionistApproval.getPatient().getCpf());
+            nutritionistRequestDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -nutritionistApproval.getPatient().getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
+            nutritionistRequestDTO.setDate(nutritionistApproval.getDateOfRequest());
+            if(nutritionistApproval.getPatient().getAddressId()!=null)
+                nutritionistRequestDTO.setAddress(GenericMethods.mountAddress(nutritionistApproval.getPatient().getAddressId()));
+
+            measureDTO.setHeight(nutritionistApproval.getPatient().getHeight());
+            measureDTO.setWeight(nutritionistApproval.getPatient().getWeight());
+            measureDTO.setBmi(nutritionistApproval.getPatient().getWeight()/Math.pow((nutritionistApproval.getPatient().getHeight()/100),2));
+            nutritionistRequestDTO.setMeasure(measureDTO);
+            nutritionistRequestDTOList.add(nutritionistRequestDTO);
+
+        });
+        return nutritionistRequestDTOList;
+    }
+
 
 }

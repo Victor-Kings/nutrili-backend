@@ -6,9 +6,11 @@ import lombok.Data;
 public class NewUserDTO {
     private boolean newUser;
     private boolean ancientPlusComplete;
+    private boolean ableToSearchNutritionist;
 
     public NewUserDTO() {
         newUser=true;
         ancientPlusComplete=false;
+        ableToSearchNutritionist=true;
     }
 }

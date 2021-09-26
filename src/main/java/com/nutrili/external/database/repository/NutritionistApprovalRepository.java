@@ -11,4 +11,8 @@ import java.util.List;
 public interface NutritionistApprovalRepository extends JpaRepository<NutritionistApproval,Long> {
     @Query("select na from NutritionistApproval na where :currentTime - na.dateOfRequest < '28 days' and na.approval is null and na.patient.id=:patientID")
     List<NutritionistApproval> findRecentRequest(@Param("patientID") long patientID,@Param("currentTime") Date currentTime);
+
+    @Query("select na from NutritionistApproval na where :currentTime - na.dateOfRequest < '28 days' and na.approval is null and na.nutritionist.id=:nutritionistID")
+    List<NutritionistApproval> findRequestBynutritionist(@Param("nutritionistID") long nutritionistID,@Param("currentTime") Date currentTime);
+
 }

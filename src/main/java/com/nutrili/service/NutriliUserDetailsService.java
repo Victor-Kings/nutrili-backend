@@ -8,10 +8,7 @@ import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.*;
-import com.nutrili.external.database.repository.AnswerRepository;
-import com.nutrili.external.database.repository.NutritionistRepository;
-import com.nutrili.external.database.repository.PatientRepository;
-import com.nutrili.external.database.repository.UserRepository;
+import com.nutrili.external.database.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,6 +47,9 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     @Autowired
     private AnswerRepository answerRepository;
+
+    @Autowired
+    private NutritionistApprovalRepository nutritionistApprovalRepository;
 
 
     @Override
@@ -216,6 +217,8 @@ public class NutriliUserDetailsService implements UserDetailsService {
         if(questionAnswer.isPresent())
             newUserDTO.setAncientPlusComplete(true);
 
+        if(patientRepository.findPatientWithNutritionist(patient.getId()).isPresent() || !nutritionistApprovalRepository.findRecentRequest(patient.getId(), new Date()).isEmpty())
+            newUserDTO.setAbleToSearchNutritionist(false);
         return newUserDTO;
     }
 
