@@ -181,8 +181,6 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
             nutritionist.setCrn(GenericMethods.nvl(userDTO.getCrn(),nutritionist.getCrn()));
 
-            nutritionist.setScore(GenericMethods.nvl(userDTO.getScore(),nutritionist.getScore()));
-
             nutritionist.setCrnType(GenericMethods.nvl(userDTO.getCrnType(),nutritionist.getCrnType()));
 
             nutritionistRepository.save(nutritionist);
@@ -225,7 +223,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
     private void DtoToNutritionist(UserDTO userDTO, Nutritionist nutritionist) {
         Role role = new Role("ROLE_NUTRITIONIST");
 
-        nutritionist.setScore(userDTO.getScore());
+        nutritionist.setScore(10);
         nutritionist.setCrn(userDTO.getCrn());
         nutritionist.setCrnType(userDTO.getCrnType());
         nutritionist.setBirth(userDTO.getBirth());

@@ -13,14 +13,11 @@ import java.util.Date;
 @Data
 public class UserDTO {
 
-    @NotNull
     private boolean nutritionist;
 
     private Double height;
 
     private Double weight;
-
-    private Integer score;
 
     private String crn;
 
