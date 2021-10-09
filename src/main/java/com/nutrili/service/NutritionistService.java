@@ -39,6 +39,13 @@ public class NutritionistService {
     @Autowired
     NutritionistApprovalRepository nutritionistApprovalRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
+    @Autowired
+    AnswerService answerService;
+
+
     public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
     {
         List<NutritionistDTO> nutritionistDTOList = new ArrayList<>();
@@ -86,6 +93,10 @@ public class NutritionistService {
            nutritionistApproval.setApproval(approval);
            if(approval){
                nutritionistApproval.getPatient().setNutritionist(nutritionistApproval.getNutritionist());
+               notificationService.createNotification(nutritionistApproval.getPatient(),"Sistema","nutricionista aprovou você como paciente");
+           } else {
+               notificationService.createNotification(nutritionistApproval.getPatient(),"Sistema","nutricionista não aprovou você como paciente");
+
            }
             nutritionistApprovalRepository.save(nutritionistApproval);
        } else {
@@ -103,6 +114,7 @@ public class NutritionistService {
                 nutritionistApproval.setDateOfRequest(new Date());
                 nutritionistApproval.setPatient(patient);
                 nutritionistApprovalRepository.save(nutritionistApproval);
+                notificationService.createNotification(nutritionistValidation.get(),"Sistema","Você possui uma nova requisição de paciente");
             } else {
                 throw new UserNotFoundException();
             }
@@ -116,6 +128,7 @@ public class NutritionistService {
         nutritionistApprovalRepository.findRequestBynutritionist(nutritionistId, new Date()).forEach(nutritionistApproval -> {
             NutritionistRequestDTO nutritionistRequestDTO = new NutritionistRequestDTO();
             MeasureDTO measureDTO = new MeasureDTO();
+            nutritionistRequestDTO.setAnswerList(answerService.getAnswer(nutritionistApproval.getPatient().getId()));
             nutritionistRequestDTO.setRequestId(nutritionistApproval.getId());
             nutritionistRequestDTO.setCpf(nutritionistApproval.getPatient().getCpf());
             nutritionistRequestDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -nutritionistApproval.getPatient().getBirth().getTime(),TimeUnit.MILLISECONDS)/365));

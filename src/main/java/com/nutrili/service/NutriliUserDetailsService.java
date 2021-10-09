@@ -210,7 +210,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
         if (patient.getName() != null)
             newUserDTO.setNewUser(false);
 
-        Optional<QuestionAnswer> questionAnswer = answerRepository.findQuestion(patient.getId());
+        Optional<List<QuestionAnswer>> questionAnswer = answerRepository.findQuestion(patient.getId());
 
         if(questionAnswer.isPresent())
             newUserDTO.setAncientPlusComplete(true);
