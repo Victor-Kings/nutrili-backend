@@ -1,7 +1,6 @@
 package com.nutrili.controller;
 
 import com.nutrili.Utils.RoleConst;
-import com.nutrili.external.database.entity.Nutritionist;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
