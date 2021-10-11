@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public interface NutritionistApprovalRepository extends JpaRepository<NutritionistApproval,Long> {
+public interface NutritionistApprovalRepository extends JpaRepository<NutritionistApproval,UUID> {
     @Query("select na from NutritionistApproval na where :currentTime - na.dateOfRequest < '28 days' and na.approval is null and na.patient.id=:patientID")
     List<NutritionistApproval> findRecentRequest(@Param("patientID") UUID patientID, @Param("currentTime") Date currentTime);
 

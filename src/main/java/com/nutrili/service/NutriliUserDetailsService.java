@@ -172,7 +172,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
             user.getAddressId().setNumber(GenericMethods.nvl(userDTO.getPersonalAddress().getNumber(),user.getAddressId().getNumber()));
 
-        } else {
+        } else if(userDTO.getPersonalAddress()!=null) {
             user.setAddressId(userDTO.getPersonalAddress());
         }
 
@@ -182,6 +182,24 @@ public class NutriliUserDetailsService implements UserDetailsService {
             nutritionist.setCrn(GenericMethods.nvl(userDTO.getCrn(),nutritionist.getCrn()));
 
             nutritionist.setCrnType(GenericMethods.nvl(userDTO.getCrnType(),nutritionist.getCrnType()));
+
+            if (nutritionist.getOfficeId() != null) {
+
+                nutritionist.getOfficeId().setCep(GenericMethods.nvl(userDTO.getOfficeAddress().getCep(),user.getAddressId().getCep()));
+
+                nutritionist.getOfficeId().setState(GenericMethods.nvl(userDTO.getOfficeAddress().getState(),user.getAddressId().getState()));
+
+                nutritionist.getOfficeId().setCity(GenericMethods.nvl(userDTO.getOfficeAddress().getCity(),user.getAddressId().getCity()));
+
+                nutritionist.getOfficeId().setNeighborhood(GenericMethods.nvl(userDTO.getOfficeAddress().getNeighborhood(),user.getAddressId().getNeighborhood()));
+
+                nutritionist.getOfficeId().setStreet(GenericMethods.nvl(userDTO.getOfficeAddress().getStreet(),user.getAddressId().getStreet()));
+
+                nutritionist.getOfficeId().setNumber(GenericMethods.nvl(userDTO.getOfficeAddress().getNumber(),user.getAddressId().getNumber()));
+
+            } else if(userDTO.getOfficeAddress()!=null) {
+                nutritionist.setOfficeId(userDTO.getOfficeAddress());
+            }
 
             nutritionistRepository.save(nutritionist);
 

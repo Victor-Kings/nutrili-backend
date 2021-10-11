@@ -51,9 +51,9 @@ public class NutritionistService {
         List<NutritionistDTO> nutritionistDTOList = new ArrayList<>();
         (searchMethod==1?nutritionistRepository.findByCity("%"+searchParameter+"%"):nutritionistRepository.findByName("%"+searchParameter+"%")).forEach(nutritionist -> {
             NutritionistDTO nutritionistDTO = new NutritionistDTO();
-            nutritionistDTO.setCity(nutritionist.getAddressId().getCity());
+            nutritionistDTO.setCity(nutritionist.getOfficeId().getCity());
             nutritionistDTO.setName(nutritionist.getName());
-            nutritionistDTO.setState(nutritionist.getAddressId().getState());
+            nutritionistDTO.setState(nutritionist.getOfficeId().getState());
             nutritionistDTO.setScore(nutritionist.getScore());
             nutritionistDTO.setId(nutritionist.getId());
             nutritionistDTO.setProfilePicture(nutritionist.getImage());
@@ -71,6 +71,9 @@ public class NutritionistService {
                 .validateTLSCertificates(false)
                 .post();
 
+        if(doc.select("tr").isEmpty() || doc.select("tr").size()<2){
+            throw new InvalidCrnException();
+        }
         Element tableRow = doc.select("tr").get(1);
         List<String> tableColumn =tableRow.select("td").stream().map(elem -> elem.toString()).collect(Collectors.toList());
 
@@ -83,7 +86,7 @@ public class NutritionistService {
 
     }
 
-    public void assignNutritionist(long requestId, boolean approval){
+    public void assignNutritionist(UUID requestId, boolean approval){
        Optional<NutritionistApproval> nutritionistApprovalValidation= nutritionistApprovalRepository.findById(requestId);
        if(nutritionistApprovalValidation.isPresent()){
            NutritionistApproval nutritionistApproval = nutritionistApprovalValidation.get();
@@ -101,7 +104,7 @@ public class NutritionistService {
        }
     }
 
-    public void requestNutritionist(long nutritionistId, Patient patient){
+    public void requestNutritionist(UUID nutritionistId, Patient patient){
         if(nutritionistApprovalRepository.findRecentRequest(patient.getId(),new Date()).isEmpty()) {
             Optional<Nutritionist> nutritionistValidation= nutritionistRepository.findById(nutritionistId);
             if (nutritionistValidation.isPresent()) {

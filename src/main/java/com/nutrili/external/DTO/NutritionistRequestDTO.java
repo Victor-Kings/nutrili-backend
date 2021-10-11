@@ -4,10 +4,11 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class NutritionistRequestDTO {
-    private long requestId;
+    private UUID requestId;
     private int age;
     private Date date;
     private String cpf;

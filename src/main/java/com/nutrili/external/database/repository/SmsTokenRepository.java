@@ -10,9 +10,10 @@ import org.springframework.data.repository.query.Param;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Transactional
-public interface SmsTokenRepository extends JpaRepository<SmsToken,Integer> {
+public interface SmsTokenRepository extends JpaRepository<SmsToken, UUID> {
     @Modifying
     @Query("delete from SmsToken pt where :currentTime - pt.createTime >'00:15:00'")
     void deleteOldTokens(@Param("currentTime") Date currentTime);

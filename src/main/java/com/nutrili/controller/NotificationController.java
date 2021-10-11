@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/notification")
@@ -25,7 +26,7 @@ public class NotificationController {
 
     @PutMapping("/updateNotification")
     @Secured({RoleConst.ROLE_PATIENT,RoleConst.ROLE_NUTRITIONIST})
-    public ResponseEntity updateNotification(@NotNull @RequestParam int notificationId){
+    public ResponseEntity updateNotification(@NotNull @RequestParam UUID notificationId){
         notificationService.updateNotification(notificationId);
         return ResponseEntity.ok("Notification is no longer a new notification");
     }

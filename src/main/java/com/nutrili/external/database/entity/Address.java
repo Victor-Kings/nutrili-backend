@@ -9,19 +9,21 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.UUID;
+
 @Entity
 @Getter
 @Setter
 @Table(name="ADDRESS")
 public class Address {
 
-    @NotNull
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idAddress")
+    @Column(name = "idAddress", updatable = false, unique = true, nullable = false)
     @Setter(value= AccessLevel.NONE)
     @JsonIgnore
-    private int id;
+    private UUID id;
 
     @Pattern(regexp="^[0-9]{5}-[0-9]{3}")
     @Column(name = "CEP")

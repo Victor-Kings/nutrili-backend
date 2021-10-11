@@ -1,6 +1,7 @@
 package com.nutrili.external.database.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -8,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -15,11 +17,12 @@ import java.util.Date;
 @Table(name = "Notification")
 public class Notification {
 
-    @Column(name = "notificationId")
-    @NotNull
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @Column(name = "notificationId", updatable = false, unique = true, nullable = false)
+    @Setter(value= AccessLevel.NONE)
+    private UUID id;
 
     @NotNull
     private String senderName;

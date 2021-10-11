@@ -1,11 +1,14 @@
 package com.nutrili.external.database.entity;
 
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -20,8 +23,12 @@ public class Role implements GrantedAuthority {
     }
 
     @Id
+    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
+    @Setter(value= AccessLevel.NONE)
+    private UUID id;
+
     private String name;
 
 

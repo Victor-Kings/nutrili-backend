@@ -32,7 +32,7 @@ public class NotificationService {
 
     }
 
-    public void  updateNotification(int notificationId){
+    public void  updateNotification(UUID notificationId){
         Optional<Notification> notificationOptional = notificationRepository.findById(notificationId);
         if(notificationOptional.isPresent()){
             Notification notification = notificationOptional.get();

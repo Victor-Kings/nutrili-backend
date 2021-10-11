@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface NutritionistRepository extends JpaRepository<Nutritionist, Long> {
-    @Query("select n from Nutritionist n join n.addressId a where a.city LIKE :city order by n.score")
+public interface NutritionistRepository extends JpaRepository<Nutritionist, UUID> {
+    @Query("select n from Nutritionist n join n.officeId a where a.city LIKE :city and a.city is not null order by n.score")
     List<Nutritionist> findByCity(@Param("city") String city);
 
     @Query("select n from Nutritionist n where n.name LIKE :name order by n.score")

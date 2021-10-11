@@ -1,13 +1,15 @@
 package com.nutrili.external.database.entity;
 
-import com.sun.istack.NotNull;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -16,11 +18,11 @@ import java.util.Date;
 public class QuestionAnswer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "idAnswer", updatable = false, unique = true, nullable = false)
     @Setter(value= AccessLevel.NONE)
-    @Column(name="idAnswer")
-    private Long id;
+    private UUID id;
 
     @ManyToOne
     @NotNull
