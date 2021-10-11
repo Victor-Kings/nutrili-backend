@@ -4,15 +4,13 @@ import com.nutrili.Utils.GenericMethods;
 import com.nutrili.config.Properties;
 import com.nutrili.exception.InvalidNutritionistRequest;
 import com.nutrili.exception.UserNotFoundException;
-import com.nutrili.external.DTO.MeasureDTO;
-import com.nutrili.external.DTO.NutritionistDTO;
-import com.nutrili.external.DTO.NutritionistRequestDTO;
-import com.nutrili.external.DTO.ValidNutritionistDTO;
+import com.nutrili.external.DTO.*;
 import com.nutrili.external.database.entity.Nutritionist;
 import com.nutrili.external.database.entity.NutritionistApproval;
 import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.repository.NutritionistApprovalRepository;
 import com.nutrili.external.database.repository.NutritionistRepository;
+import com.nutrili.external.database.repository.PatientRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -44,6 +42,9 @@ public class NutritionistService {
 
     @Autowired
     AnswerService answerService;
+
+    @Autowired
+    PatientRepository patientRepository;
 
 
     public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
@@ -123,7 +124,8 @@ public class NutritionistService {
         }
     }
 
-    public List<NutritionistRequestDTO> getNutritionistRequest(long nutritionistId) {
+    public DashboardDataDTO getNutritionistRequest(long nutritionistId) {
+        DashboardDataDTO dashboardDataDTO = new DashboardDataDTO();
         List<NutritionistRequestDTO> nutritionistRequestDTOList = new ArrayList<>();
         nutritionistApprovalRepository.findRequestBynutritionist(nutritionistId, new Date()).forEach(nutritionistApproval -> {
             NutritionistRequestDTO nutritionistRequestDTO = new NutritionistRequestDTO();
@@ -143,7 +145,10 @@ public class NutritionistService {
             nutritionistRequestDTOList.add(nutritionistRequestDTO);
 
         });
-        return nutritionistRequestDTOList;
+        dashboardDataDTO.setNumberOfPendingRequest(nutritionistRequestDTOList.size());
+        dashboardDataDTO.setNumberOfPatient(patientRepository.findPatientByNutritionist(nutritionistId).size());
+        dashboardDataDTO.setNutritionistDTOList(nutritionistRequestDTOList);
+        return dashboardDataDTO;
     }
 
 

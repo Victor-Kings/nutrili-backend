@@ -34,22 +34,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/user/insertUser")
-                .permitAll()
-                .antMatchers("/user/smsToken")
-                .permitAll()
-                .antMatchers("/nutritionist/validateCrn")
-                .permitAll()
-                .anyRequest()
-                .fullyAuthenticated();
-    }
-
-
-    @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
