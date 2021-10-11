@@ -1,5 +1,6 @@
 package com.nutrili.external.database.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idAddress")
     @Setter(value= AccessLevel.NONE)
+    @JsonIgnore
     private int id;
 
     @Pattern(regexp="^[0-9]{5}-[0-9]{3}")

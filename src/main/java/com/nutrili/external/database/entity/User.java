@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -25,8 +26,9 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", updatable = false, unique = true, nullable = false)
     @Setter(value= AccessLevel.NONE)
-    private Long id;
+    private UUID id;
 
     @Column(name = "nameUser")
     @Size(min=1, max=30)

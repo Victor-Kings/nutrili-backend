@@ -7,8 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface AnswerRepository extends JpaRepository<QuestionAnswer,Long> {
     @Query("select q from QuestionAnswer q where q.patient.id =:patientID and q.idQuestion>=11")
-    Optional<List<QuestionAnswer>> findQuestion(@Param("patientID") long patiendID);
+    Optional<List<QuestionAnswer>> findQuestion(@Param("patientID") UUID patiendID);
 }

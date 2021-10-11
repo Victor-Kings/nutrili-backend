@@ -7,10 +7,7 @@ import com.nutrili.external.database.repository.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AnswerService {
@@ -31,7 +28,7 @@ public class AnswerService {
         });
     }
 
-    public List<AnswerDTO> getAnswer(long id) {
+    public List<AnswerDTO> getAnswer(UUID id) {
         Optional<List<QuestionAnswer>> answerList = answerRepository.findQuestion(id);
         List<AnswerDTO> answerDTOList = new ArrayList<>();
         if (answerList.isPresent()) {

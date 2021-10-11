@@ -9,8 +9,9 @@ import org.springframework.data.repository.query.Param;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface NotificationRepository extends JpaRepository<Notification,Integer> {
     @Query("select n from Notification n where n.receiverUser.id =:userId")
-    List<Notification> findNotification (@Param("userId") long userId);
+    List<Notification> findNotification (@Param("userId") UUID userId);
 }

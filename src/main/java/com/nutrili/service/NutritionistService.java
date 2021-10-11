@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -123,7 +120,7 @@ public class NutritionistService {
         }
     }
 
-    public DashboardDataDTO getNutritionistRequest(long nutritionistId) {
+    public DashboardDataDTO getNutritionistRequest(UUID nutritionistId) {
         DashboardDataDTO dashboardDataDTO = new DashboardDataDTO();
         List<NutritionistRequestDTO> nutritionistRequestDTOList = new ArrayList<>();
         nutritionistApprovalRepository.findRequestBynutritionist(nutritionistId, new Date()).forEach(nutritionistApproval -> {

@@ -1,11 +1,11 @@
 package com.nutrili.external.DTO;
 
 
+import com.nutrili.external.database.entity.Address;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -44,23 +44,8 @@ public class UserDTO {
 
     private String image;
 
-    @Pattern(regexp="^[0-9]{5}-[0-9]{3}")
-    @Size(min=9,max = 9)
-    private String cep;
+    private Address personalAddress;
 
-    @Size(min=2,max=2)
-    private String state;
-
-    @Size(min= 1)
-    private String city;
-
-    @Size(min= 1)
-    private String neighborhood;
-
-    @Size(min=1)
-    private String street;
-
-    @Size(min=1)
-    private String number;
+    private Address officeAddress;
 
 }

@@ -27,4 +27,8 @@ public class Nutritionist extends User{
     @OneToMany(mappedBy="nutritionist",cascade={CascadeType.ALL})
     private List<Patient> patientList;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "officeId")
+    private Address officeId;
+
 }

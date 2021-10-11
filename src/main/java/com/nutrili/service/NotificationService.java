@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class NotificationService {
@@ -26,7 +27,7 @@ public class NotificationService {
 
     }
 
-    public List<Notification> getNotification(long id){
+    public List<Notification> getNotification(UUID id){
         return notificationRepository.findNotification(id);
 
     }

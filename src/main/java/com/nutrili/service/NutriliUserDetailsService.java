@@ -120,14 +120,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
         Nutritionist nutritionist = new Nutritionist();
         DtoToNutritionist(userDTO, nutritionist);
-        Address address = new Address();
-        address.setNumber(userDTO.getNumber());
-        address.setNeighborhood(userDTO.getNeighborhood());
-        address.setStreet(userDTO.getStreet());
-        address.setCity(userDTO.getCity());
-        address.setCep(userDTO.getCep());
-        address.setState(userDTO.getState());
-        nutritionist.setAddressId(address);
+        nutritionist.setAddressId(userDTO.getPersonalAddress());
 
         nutritionistRepository.save(nutritionist);
     }
@@ -167,34 +160,20 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
         if (user.getAddressId() != null) {
 
-            user.getAddressId().setCep(GenericMethods.nvl(userDTO.getCep(),user.getAddressId().getCep()));
+            user.getAddressId().setCep(GenericMethods.nvl(userDTO.getPersonalAddress().getCep(),user.getAddressId().getCep()));
 
-            user.getAddressId().setState(GenericMethods.nvl(userDTO.getState(),user.getAddressId().getState()));
+            user.getAddressId().setState(GenericMethods.nvl(userDTO.getPersonalAddress().getState(),user.getAddressId().getState()));
 
-            user.getAddressId().setCity(GenericMethods.nvl(userDTO.getCity(),user.getAddressId().getCity()));
+            user.getAddressId().setCity(GenericMethods.nvl(userDTO.getPersonalAddress().getCity(),user.getAddressId().getCity()));
 
-            user.getAddressId().setNeighborhood(GenericMethods.nvl(userDTO.getNeighborhood(),user.getAddressId().getNeighborhood()));
+            user.getAddressId().setNeighborhood(GenericMethods.nvl(userDTO.getPersonalAddress().getNeighborhood(),user.getAddressId().getNeighborhood()));
 
-            user.getAddressId().setStreet(GenericMethods.nvl(userDTO.getStreet(),user.getAddressId().getStreet()));
+            user.getAddressId().setStreet(GenericMethods.nvl(userDTO.getPersonalAddress().getStreet(),user.getAddressId().getStreet()));
 
-            user.getAddressId().setNumber(GenericMethods.nvl(userDTO.getNumber(),user.getAddressId().getNumber()));
+            user.getAddressId().setNumber(GenericMethods.nvl(userDTO.getPersonalAddress().getNumber(),user.getAddressId().getNumber()));
 
         } else {
-            Address address = new Address();
-
-            address.setCep(GenericMethods.nvl(userDTO.getCep(),null));
-
-            address.setState(GenericMethods.nvl(userDTO.getState(),null));
-
-            address.setCity(GenericMethods.nvl(userDTO.getCity(),null));
-
-            address.setNeighborhood(GenericMethods.nvl(userDTO.getNeighborhood(),null));
-
-            address.setStreet(GenericMethods.nvl(userDTO.getStreet(),null));
-
-            address.setNumber(GenericMethods.nvl(userDTO.getNumber(),null));
-
-            user.setAddressId(address);
+            user.setAddressId(userDTO.getPersonalAddress());
         }
 
         if (userDTO.isNutritionist()) {
