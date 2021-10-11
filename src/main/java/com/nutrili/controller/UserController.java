@@ -7,6 +7,7 @@ import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.Utils.RoleConst;
 import com.nutrili.service.NutriliUserDetailsService;
+import com.nutrili.service.OAuth2Service;
 import com.nutrili.service.SmsService;
 import com.nutrili.service.ValidateTokenService;
 import org.slf4j.Logger;
@@ -15,13 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 
 
 @RestController
@@ -41,10 +38,8 @@ public class UserController {
     NutriliUserDetailsService userDetailsService;
 
     @Autowired
-    DefaultTokenServices defaultTokenServices;
+    OAuth2Service oAuth2Service;
 
-    @Autowired
-    TokenStore tokenStore;
 
     @PostMapping(value = "/insertUser")
     public ResponseEntity<?> insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization,  @RequestBody UserDTO userDTO) {
@@ -113,12 +108,8 @@ public class UserController {
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity<?> logout(){
        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientIdAndUserName(
-                "teste", user.getUsername());
-        for (OAuth2AccessToken token : tokens) {
-            defaultTokenServices.revokeToken(token.getValue().toString());
-        }
-        return new ResponseEntity<String>("off", HttpStatus.OK);
+        oAuth2Service.revokeToken(user);
+        return new ResponseEntity<String>("Token was revoked successfuly", HttpStatus.OK);
     }
 
 
