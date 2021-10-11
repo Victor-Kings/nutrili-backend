@@ -69,13 +69,4 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
                     .secret(passwordEncoder.encode(clientSecret))
                     .accessTokenValiditySeconds(50000);
         }
-
-        @Bean
-        public DefaultTokenServices tokenServices() {
-            DefaultTokenServices tokenServices = new DefaultTokenServices();
-            tokenServices.setSupportRefreshToken(true);
-            tokenServices.setTokenStore(this.tokenStore);
-            return tokenServices;
-        }
-
     }
