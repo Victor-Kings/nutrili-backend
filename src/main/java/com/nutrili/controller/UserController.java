@@ -46,15 +46,17 @@ public class UserController {
     @Autowired
     TokenStore tokenStore;
 
-
-
     @PostMapping(value = "/insertUser")
-    public ResponseEntity<?> insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization,  @RequestBody UserDTO userDTO)
-    {
+    public ResponseEntity<?> insertUser(@RequestHeader(value="AOBARIZATION",required = true) String authorization,  @RequestBody UserDTO userDTO) {
         validateTokenService.validateToken(authorization);
         userDetailsService.insertUser(userDTO);
         return new ResponseEntity<String>("User was created successfully",HttpStatus.OK);
 
+    }
+
+    @GetMapping(value= "/getUser")
+    public ResponseEntity<?> getUser(){
+        return ResponseEntity.ok( userDetailsService.getUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
     }
 
     @PostMapping(value="/smsToken")

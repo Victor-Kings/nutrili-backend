@@ -2,7 +2,9 @@ package com.nutrili.service;
 
 import com.nutrili.Utils.GenericMethods;
 import com.nutrili.config.Properties;
+import com.nutrili.exception.InvalidCrnException;
 import com.nutrili.exception.InvalidNutritionistRequest;
+import com.nutrili.exception.SomethingWentWrongException;
 import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.*;
 import com.nutrili.external.database.entity.Nutritionist;
@@ -64,7 +66,7 @@ public class NutritionistService {
         return nutritionistDTOList;
     }
 
-    public ValidNutritionistDTO validateNutritionist(String crn, String name) throws IOException {
+    public void validateNutritionist(String crn, String name) throws IOException {
 
         Document doc = Jsoup.connect(properties.getNutritionistUrl())
                 .data("nome",name)
@@ -79,12 +81,9 @@ public class NutritionistService {
             tableColumn.set(i,tableColumn.get(i).replace("<td>","").replace("</td>",""));
         }
 
-        ValidNutritionistDTO validNutritionistDTO = new ValidNutritionistDTO();
-
         if(!tableColumn.get(0).equals(name.toUpperCase()) || !tableColumn.get(1).equals(crn))
-            validNutritionistDTO.setNutritionist(false);
+            throw new InvalidCrnException();
 
-        return validNutritionistDTO;
     }
 
     public void assignNutritionist(long requestId, boolean approval){

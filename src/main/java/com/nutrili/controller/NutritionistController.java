@@ -46,14 +46,7 @@ public class NutritionistController {
     @GetMapping("/getNutritionistRequest")
     @Secured({RoleConst.ROLE_NUTRITIONIST})
     public ResponseEntity getNutritionistRequest(){
-        nutritionistService.getNutritionistRequest(((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         return ResponseEntity.ok(nutritionistService.getNutritionistRequest(((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
-    }
-
-    @GetMapping(value="/validateCrn")
-    public ResponseEntity<?> validateCrn(@RequestHeader(value="AOBARIZATION",required = true) String authorization,@NotNull @RequestParam String crn, @NotNull @RequestParam String nome) throws IOException {
-        validateTokenService.validateToken(authorization);
-        return ResponseEntity.ok(nutritionistService.validateNutritionist(crn,nome));
     }
 
 }

@@ -4,19 +4,23 @@ import com.nutrili.Utils.GenericMethods;
 import com.nutrili.config.Properties;
 import com.nutrili.exception.RepeatedEmailException;
 import com.nutrili.exception.RepeatedPhoneException;
+import com.nutrili.exception.SomethingWentWrongException;
 import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.NewUserDTO;
+import com.nutrili.external.DTO.UserBasicInfoDTO;
 import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.*;
 import com.nutrili.external.database.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +54,9 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     @Autowired
     private NutritionistApprovalRepository nutritionistApprovalRepository;
+
+    @Autowired
+    private NutritionistService nutritionistService;
 
 
     @Override
@@ -105,6 +112,12 @@ public class NutriliUserDetailsService implements UserDetailsService {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent())
             throw new RepeatedEmailException();
 
+        try {
+            nutritionistService.validateNutritionist(userDTO.getCrn(), userDTO.getName());
+        } catch(Exception e) {
+            throw new SomethingWentWrongException();
+        }
+
         Nutritionist nutritionist = new Nutritionist();
         DtoToNutritionist(userDTO, nutritionist);
         Address address = new Address();
@@ -117,6 +130,14 @@ public class NutriliUserDetailsService implements UserDetailsService {
         nutritionist.setAddressId(address);
 
         nutritionistRepository.save(nutritionist);
+    }
+
+    public UserBasicInfoDTO getUser(User user) {
+        UserBasicInfoDTO userBasicInfoDTO = new UserBasicInfoDTO();
+        userBasicInfoDTO.setEmail(user.getEmail());
+        userBasicInfoDTO.setName(user.getName());
+        userBasicInfoDTO.setProfilePicture(user.getImage());
+        return userBasicInfoDTO;
     }
 
     public void insertUserByPhone(String phone) {

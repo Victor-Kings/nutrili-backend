@@ -71,4 +71,26 @@ public class NutriliExceptionHandler {
         return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationExceptionEnum.INVALID_NUTRITIONIST_REQUEST.getCode());
     }
 
+    @ExceptionHandler(SomethingWentWrongException.class)
+    public ResponseEntity<ExceptionDetails> handlerSomethingWentWrongException(SomethingWentWrongException somethingWentWrongException)
+    {
+        exceptionDetails.setTitle("Internal Server Error");
+        exceptionDetails.setDetails(somethingWentWrongException.getMessage());
+        exceptionDetails.setComplement(somethingWentWrongException.getCause());
+        exceptionDetails.setTimeException(LocalDate.now());
+
+        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationExceptionEnum.SOMETHING_WENT_WRONG.getCode());
+    }
+
+    @ExceptionHandler(InvalidCrnException.class)
+    public ResponseEntity<ExceptionDetails> handlerInvalidCrnException(InvalidCrnException invalidCrnException)
+    {
+        exceptionDetails.setTitle("Internal CRN");
+        exceptionDetails.setDetails(invalidCrnException.getMessage());
+        exceptionDetails.setComplement(invalidCrnException.getCause());
+        exceptionDetails.setTimeException(LocalDate.now());
+
+        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationExceptionEnum.INVALID_CRN.getCode());
+    }
+
 }
