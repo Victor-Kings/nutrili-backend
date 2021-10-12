@@ -1,5 +1,6 @@
 package com.nutrili.service;
 
+import com.nutrili.Utils.QuestionsMap;
 import com.nutrili.external.DTO.AnswerDTO;
 import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.entity.QuestionAnswer;
@@ -29,16 +30,15 @@ public class AnswerService {
     }
 
     public List<AnswerDTO> getAnswer(UUID id) {
-        Optional<List<QuestionAnswer>> answerList = answerRepository.findQuestion(id);
+        Optional<List<QuestionAnswer>> answerList = answerRepository.findQuestionForDashboard(id);
         List<AnswerDTO> answerDTOList = new ArrayList<>();
-        if (answerList.isPresent()) {
-            answerList.get().forEach(answer -> {
-                AnswerDTO answerDTO = new AnswerDTO();
-                answerDTO.setAnswer(answer.getAnswer());
-                answerDTO.setIdQuestion(answer.getIdQuestion());
-                answerDTOList.add(answerDTO);
-            });
-        }
+        answerList.ifPresent(questionAnswers -> questionAnswers.forEach(answer -> {
+            AnswerDTO answerDTO = new AnswerDTO();
+            answerDTO.setAnswer(answer.getAnswer());
+            answerDTO.setIdQuestion(answer.getIdQuestion());
+            answerDTO.setQuestion(QuestionsMap.questionsMap.get(answer.getIdQuestion()));
+            answerDTOList.add(answerDTO);
+        }));
         return answerDTOList;
     }
 }

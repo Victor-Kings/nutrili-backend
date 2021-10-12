@@ -11,6 +11,7 @@ public class NutritionistRequestDTO {
     private UUID requestId;
     private int age;
     private Date date;
+    private String name;
     private String cpf;
     private String address;
     private MeasureDTO measure;

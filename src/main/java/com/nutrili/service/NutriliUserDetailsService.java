@@ -13,14 +13,12 @@ import com.nutrili.external.database.entity.*;
 import com.nutrili.external.database.repository.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +55,9 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     @Autowired
     private NutritionistService nutritionistService;
+
+    @Autowired
+    private WeightHistoryService weightHistoryService;
 
 
     @Override
@@ -212,6 +213,10 @@ public class NutriliUserDetailsService implements UserDetailsService {
             patient.setWeight(GenericMethods.nvl(userDTO.getWeight(),patient.getWeight()));
 
             patientRepository.save(patient);
+
+            if(userDTO.getWeight()!=null) {
+                weightHistoryService.insertWeightHistory(userDTO.getWeight(),patient);
+            }
         }
     }
 

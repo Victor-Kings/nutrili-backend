@@ -33,7 +33,7 @@ public class NutritionistController {
     @Secured({RoleConst.ROLE_NUTRITIONIST})
     public ResponseEntity assignNutritionist(@NotNull @RequestParam UUID requestId,@NotNull @RequestParam boolean approval){
         nutritionistService.assignNutritionist(requestId,approval);
-        return ResponseEntity.ok("selected nutritionist was assigned to the patient successfully");
+        return ResponseEntity.ok("nutritionist answer was recorded succesfully");
     }
 
     @PostMapping("/requestNutritionist")

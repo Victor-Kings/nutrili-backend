@@ -132,6 +132,7 @@ public class NutritionistService {
             nutritionistRequestDTO.setAnswerList(answerService.getAnswer(nutritionistApproval.getPatient().getId()));
             nutritionistRequestDTO.setRequestId(nutritionistApproval.getId());
             nutritionistRequestDTO.setCpf(nutritionistApproval.getPatient().getCpf());
+            nutritionistRequestDTO.setName(nutritionistApproval.getPatient().getName());
             nutritionistRequestDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -nutritionistApproval.getPatient().getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
             nutritionistRequestDTO.setDate(nutritionistApproval.getDateOfRequest());
             if(nutritionistApproval.getPatient().getAddressId()!=null)

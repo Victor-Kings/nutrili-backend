@@ -10,4 +10,6 @@ public class AnswerDTO {
     private int idQuestion;
     @NotNull
     private String answer;
+    @NotNull
+    private String question;
 }
