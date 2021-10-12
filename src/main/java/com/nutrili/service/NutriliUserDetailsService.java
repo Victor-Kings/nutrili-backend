@@ -106,12 +106,18 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     }
 
-    public void insertUser(UserDTO userDTO) {
-        if (userRepository.findByPhone(userDTO.getPhone()).isPresent())
+    private void validateUser(String phone, String email){
+
+        if (userRepository.findByPhone(phone).isPresent())
             throw new RepeatedPhoneException();
 
-        if (userRepository.findByEmail(userDTO.getEmail()).isPresent())
+        if (userRepository.findByEmail(email).isPresent())
             throw new RepeatedEmailException();
+    }
+
+    public void insertUser(UserDTO userDTO) {
+
+        validateUser(userDTO.getPhone(),userDTO.getEmail());
 
         try {
             nutritionistService.validateNutritionist(userDTO.getCrn(), userDTO.getName());
@@ -144,6 +150,8 @@ public class NutriliUserDetailsService implements UserDetailsService {
     }
 
     public void updateUser(User user, UserDTO userDTO) {
+
+        validateUser(userDTO.getPhone(),userDTO.getEmail());
 
         user.setBirth(GenericMethods.nvl(userDTO.getBirth(),user.getBirth()));
 

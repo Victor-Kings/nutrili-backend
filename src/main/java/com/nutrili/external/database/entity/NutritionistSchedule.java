@@ -32,7 +32,18 @@ public class NutritionistSchedule {
     private String summary;
 
     @NotNull
-    private String beginingOfMeeting;
+    private String startingDate;
 
+    @NotNull
+    private String endingDate;
+
+    @NotNull
+    private String startingTime;
+
+    @NotNull
+    private String endingTime;
+
+    @NotNull
+    private boolean everyWeek;
 
 }

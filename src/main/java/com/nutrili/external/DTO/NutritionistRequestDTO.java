@@ -1,5 +1,6 @@
 package com.nutrili.external.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.UUID;
 public class NutritionistRequestDTO {
     private UUID requestId;
     private int age;
-    private Date date;
+    private String date;
     private String name;
     private String cpf;
     private String address;

@@ -11,4 +11,5 @@ public class DashboardDataDTO {
     private List<NutritionistRequestDTO> nutritionistDTOList;
     private int numberOfPatient;
     private int numberOfPendingRequest;
+    private int numberOfUnreadNotification;
 }

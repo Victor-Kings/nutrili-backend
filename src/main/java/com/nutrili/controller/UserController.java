@@ -50,6 +50,7 @@ public class UserController {
     }
 
     @GetMapping(value= "/getUser")
+    @Secured({RoleConst.ROLE_NUTRITIONIST,RoleConst.ROLE_PATIENT})
     public ResponseEntity<?> getUser(){
         return ResponseEntity.ok( userDetailsService.getUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
     }
@@ -109,7 +110,7 @@ public class UserController {
     public ResponseEntity<?> logout(){
        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         oAuth2Service.revokeToken(user);
-        return new ResponseEntity<String>("Token was revoked successfuly", HttpStatus.OK);
+        return new ResponseEntity<String>("Token was revoked successfully", HttpStatus.OK);
     }
 
 

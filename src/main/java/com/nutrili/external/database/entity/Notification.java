@@ -39,7 +39,6 @@ public class Notification {
     @OneToOne
     @NotNull
     @JoinColumn(name = "receiverUser")
-    @JsonIgnore
     User receiverUser;
 
 }

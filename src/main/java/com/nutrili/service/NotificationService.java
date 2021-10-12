@@ -1,15 +1,13 @@
 package com.nutrili.service;
 
+import com.nutrili.external.DTO.NotificationDTO;
 import com.nutrili.external.database.entity.Notification;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.external.database.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class NotificationService {
@@ -27,8 +25,18 @@ public class NotificationService {
 
     }
 
-    public List<Notification> getNotification(UUID id){
-        return notificationRepository.findNotification(id);
+    public List<NotificationDTO> getNotification(UUID id){
+        List<NotificationDTO> notificationDTOList = new ArrayList<>();
+        notificationRepository.findNotification(id).forEach((notification -> {
+            NotificationDTO notificationDTO = new NotificationDTO();
+            notificationDTO.setDateOfNotification(notification.getDateOfNotification().toString());
+            notificationDTO.setMessage(notification.getMessage());
+            notificationDTO.setSenderName(notification.getSenderName());
+            notificationDTO.setId(notification.getId());
+            notificationDTO.setStatus(notification.getStatus());
+            notificationDTOList.add(notificationDTO);
+        }));
+        return notificationDTOList;
 
     }
 
