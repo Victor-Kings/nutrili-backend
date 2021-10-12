@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface NotificationRepository extends JpaRepository<Notification,UUID> {
-    @Query("select n from Notification n where n.receiverUser.id =:userId")
+    @Query("select n from Notification n where n.receiverUser.id =:userId order by n.dateOfNotification desc")
     List<Notification> findNotification (@Param("userId") UUID userId);
 
 }

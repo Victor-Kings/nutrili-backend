@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class NotificationService {
@@ -26,6 +27,7 @@ public class NotificationService {
     }
 
     public List<NotificationDTO> getNotification(UUID id){
+        AtomicInteger index= new AtomicInteger();
         List<NotificationDTO> notificationDTOList = new ArrayList<>();
         notificationRepository.findNotification(id).forEach((notification -> {
             NotificationDTO notificationDTO = new NotificationDTO();
@@ -34,6 +36,7 @@ public class NotificationService {
             notificationDTO.setSenderName(notification.getSenderName());
             notificationDTO.setId(notification.getId());
             notificationDTO.setStatus(notification.getStatus());
+            notificationDTO.setIndex(index.getAndIncrement());
             notificationDTOList.add(notificationDTO);
         }));
         return notificationDTOList;

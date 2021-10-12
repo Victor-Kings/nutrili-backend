@@ -13,6 +13,9 @@ public class NotificationDTO {
     private UUID id;
 
     @NotNull
+    private int index;
+
+    @NotNull
     private String senderName;
 
     @NotNull
