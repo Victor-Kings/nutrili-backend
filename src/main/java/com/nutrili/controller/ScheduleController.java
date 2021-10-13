@@ -40,4 +40,18 @@ public class ScheduleController {
         scheduleService.deleteAppointment(appointmentId);
         return ResponseEntity.ok("appointment was removed from your agenda successfully");
     }
+
+    @GetMapping("/getSchedule")
+    @Secured({RoleConst.ROLE_NUTRITIONIST})
+    public ResponseEntity<?> getAppointment() {
+        return ResponseEntity.ok(scheduleService.getAppointment((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+    }
+
+    @PutMapping("/updateAppointment")
+    @Secured({RoleConst.ROLE_NUTRITIONIST})
+    public ResponseEntity<?> updateAppointment(@Valid @RequestBody AppointmentDTO appointmentDTO) {
+        scheduleService.updateAppointment(appointmentDTO);
+        return ResponseEntity.ok("appointment was updated successfully");
+    }
+
 }
