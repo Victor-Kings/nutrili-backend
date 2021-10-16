@@ -51,9 +51,14 @@ public class NutritionistService {
         List<NutritionistDTO> nutritionistDTOList = new ArrayList<>();
         (searchMethod==1?nutritionistRepository.findByCity("%"+searchParameter+"%"):nutritionistRepository.findByName("%"+searchParameter+"%")).forEach(nutritionist -> {
             NutritionistDTO nutritionistDTO = new NutritionistDTO();
-            nutritionistDTO.setCity(nutritionist.getOfficeId().getCity());
+
+            if(nutritionist.getOfficeId()!=null)
+            {
+                nutritionistDTO.setCity(nutritionist.getOfficeId().getCity());
+                nutritionistDTO.setState(nutritionist.getOfficeId().getState());
+            }
+
             nutritionistDTO.setName(nutritionist.getName());
-            nutritionistDTO.setState(nutritionist.getOfficeId().getState());
             nutritionistDTO.setScore(nutritionist.getScore());
             nutritionistDTO.setId(nutritionist.getId());
             nutritionistDTO.setProfilePicture(nutritionist.getImage());
