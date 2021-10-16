@@ -1,6 +1,7 @@
 package com.nutrili.external.DTO;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nutrili.external.database.entity.Address;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
@@ -28,6 +29,7 @@ public class UserDTO {
     @Size(min=1)
     private String gender;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birth;
 
     @Size(min=11,max=11)
