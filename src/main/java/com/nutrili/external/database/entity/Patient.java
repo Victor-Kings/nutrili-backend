@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -27,6 +28,12 @@ public class Patient extends User{
     @ManyToOne
     @JoinColumn(name = "nutritionist")
     private Nutritionist nutritionist;
+
+    @Column(name="status")
+    private String status;
+
+    @Column(name="lastMeeting")
+    private Date dateOfLastMeeting;
 
 
 }

@@ -49,4 +49,10 @@ public class NutritionistController {
         return ResponseEntity.ok(nutritionistService.getNutritionistRequest(((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
     }
 
+    @GetMapping(value="/getClient")
+    @Secured({RoleConst.ROLE_NUTRITIONIST})
+    public ResponseEntity<?> getClient(@NotNull @RequestParam int pageNumber, @NotNull @RequestParam boolean asc, @RequestParam String name){
+        return ResponseEntity.ok(nutritionistService.getClient(pageNumber,asc,name,((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
+    }
+
 }

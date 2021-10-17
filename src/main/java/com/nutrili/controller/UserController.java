@@ -80,6 +80,7 @@ public class UserController {
         return new ResponseEntity<NewUserDTO>(newUserDTO,HttpStatus.OK);
     }
 
+
 /*
     @Secured({RoleConst.ROLE_ADMIN})
     @RequestMapping(value = "", method = RequestMethod.POST)

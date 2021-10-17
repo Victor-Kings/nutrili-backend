@@ -17,6 +17,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -154,6 +158,50 @@ public class NutritionistService {
         dashboardDataDTO.setNumberOfPatient(patientRepository.findPatientByNutritionist(nutritionistId).size());
         dashboardDataDTO.setNutritionistDTOList(nutritionistRequestDTOList);
         return dashboardDataDTO;
+    }
+
+    public PagedPatientDTO getClient(int pageNumber, boolean asc, String name, UUID nutritionistId){
+        Pageable pageable;
+
+        PagedPatientDTO pagedPatientDTO = new PagedPatientDTO();
+        Page<Patient> pagePatient;
+
+        if(asc) {
+            pageable = PageRequest.of(pageNumber, 8, Sort.by(Sort.Direction.ASC, "name"));
+        } else {
+            pageable = PageRequest.of(pageNumber, 8, Sort.by(Sort.Direction.DESC, "name"));
+        }
+
+        if(name != null) {
+            pagePatient=patientRepository.patientSearchByName(nutritionistId,pageable,"%"+name+"%");
+        } else {
+            pagePatient=patientRepository.patientSearch(nutritionistId,pageable);
+        }
+        pagedPatientDTO.setPatientDTOList(preparePatientList(pagePatient));
+        pagedPatientDTO.setFirstPage(pagePatient.isFirst());
+        pagedPatientDTO.setLastPage(pagePatient.isLast());
+        pagedPatientDTO.setNumberOfpages(pagePatient.getTotalPages());
+
+        return pagedPatientDTO;
+
+    }
+
+    private List<PatientDTO> preparePatientList(Page<Patient> patients){
+        List<PatientDTO> patientList = new ArrayList<>();
+        patients.forEach(patient -> {
+            PatientDTO patientDTO = new PatientDTO();
+            patientDTO.setPatientID(patient.getId());
+            patientDTO.setName(patient.getName());
+            patientDTO.setStatus(patient.getStatus());
+
+            if(patient.getDateOfLastMeeting()!=null){
+                patientDTO.setDateOfLastMeeting((patient.getDateOfLastMeeting().toString()));
+            }
+
+            patientDTO.setProfileIcon(patient.getImage());
+            patientList.add(patientDTO);
+        });
+        return patientList;
     }
 
 
