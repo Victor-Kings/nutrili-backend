@@ -148,7 +148,7 @@ public class NutritionistService {
                 nutritionistRequestDTO.setAddress(GenericMethods.mountAddress(nutritionistApproval.getPatient().getAddressId()));
 
             measureDTO.setHeight(nutritionistApproval.getPatient().getHeight());
-            measureDTO.setWeight(nutritionistApproval.getPatient().getWeight());
+           // measureDTO.setWeight(nutritionistApproval.getPatient().getWeight());
             measureDTO.setBmi(nutritionistApproval.getPatient().getWeight()/Math.pow((nutritionistApproval.getPatient().getHeight()/100),2));
             nutritionistRequestDTO.setMeasure(measureDTO);
             nutritionistRequestDTOList.add(nutritionistRequestDTO);
