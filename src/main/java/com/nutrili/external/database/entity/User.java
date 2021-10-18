@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private UUID id;
 
     @Column(name = "nameUser")
-    @Size(min=1, max=30)
+    @Size(min=1, max=60)
     private String name;
 
     @Column(name= "gender")

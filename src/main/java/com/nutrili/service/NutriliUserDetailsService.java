@@ -2,10 +2,7 @@ package com.nutrili.service;
 
 import com.nutrili.Utils.GenericMethods;
 import com.nutrili.config.Properties;
-import com.nutrili.exception.RepeatedEmailException;
-import com.nutrili.exception.RepeatedPhoneException;
-import com.nutrili.exception.SomethingWentWrongException;
-import com.nutrili.exception.UserNotFoundException;
+import com.nutrili.exception.*;
 import com.nutrili.external.DTO.NewUserDTO;
 import com.nutrili.external.DTO.UserBasicInfoDTO;
 import com.nutrili.external.DTO.UserDTO;
@@ -106,24 +103,29 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     }
 
-    private void validateUser(String phone, String email){
+    private void validateUser(String phone, String email,String cpf){
 
-        if (userRepository.findByPhone(phone).isPresent())
+        if (phone!=null && userRepository.findByPhone(phone).isPresent())
             throw new RepeatedPhoneException();
 
-        if (userRepository.findByEmail(email).isPresent())
+        if (email!=null && userRepository.findByEmail(email).isPresent())
             throw new RepeatedEmailException();
+
+        if(cpf!=null && userRepository.findByCpf(cpf).isPresent())
+            throw new InvalidCpfException();
+
     }
 
     public void insertUser(UserDTO userDTO) {
 
-        validateUser(userDTO.getPhone(),userDTO.getEmail());
-
+        validateUser(userDTO.getPhone(),userDTO.getEmail(),userDTO.getCpf());
+        /*
         try {
             nutritionistService.validateNutritionist(userDTO.getCrn(), userDTO.getName());
         } catch(Exception e) {
+            System.out.println(e);
             throw new SomethingWentWrongException();
-        }
+        }*/
 
         Nutritionist nutritionist = new Nutritionist();
         DtoToNutritionist(userDTO, nutritionist);
@@ -151,7 +153,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     public void updateUser(User user, UserDTO userDTO) {
 
-        validateUser(userDTO.getPhone(),userDTO.getEmail());
+        validateUser(userDTO.getPhone(),userDTO.getEmail(),userDTO.getCpf());
 
         user.setBirth(GenericMethods.nvl(userDTO.getBirth(),user.getBirth()));
 

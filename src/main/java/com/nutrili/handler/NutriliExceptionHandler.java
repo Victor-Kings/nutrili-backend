@@ -82,15 +82,15 @@ public class NutriliExceptionHandler {
         return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationExceptionEnum.SOMETHING_WENT_WRONG.getCode());
     }
 
-    @ExceptionHandler(InvalidCrnException.class)
-    public ResponseEntity<ExceptionDetails> handlerInvalidCrnException(InvalidCrnException invalidCrnException)
+    @ExceptionHandler(InvalidCpfException.class)
+    public ResponseEntity<ExceptionDetails> handlerInvalidCrnException(InvalidCpfException invalidCpfException)
     {
-        exceptionDetails.setTitle("Internal CRN");
-        exceptionDetails.setDetails(invalidCrnException.getMessage());
-        exceptionDetails.setComplement(invalidCrnException.getCause());
+        exceptionDetails.setTitle("Internal CPF");
+        exceptionDetails.setDetails(invalidCpfException.getMessage());
+        exceptionDetails.setComplement(invalidCpfException.getCause());
         exceptionDetails.setTimeException(LocalDate.now());
 
-        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationExceptionEnum.INVALID_CRN.getCode());
+        return new ResponseEntity<ExceptionDetails>(exceptionDetails, ApplicationExceptionEnum.INVALID_CPF.getCode());
     }
 
 }

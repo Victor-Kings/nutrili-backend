@@ -2,9 +2,7 @@ package com.nutrili.service;
 
 import com.nutrili.Utils.GenericMethods;
 import com.nutrili.config.Properties;
-import com.nutrili.exception.InvalidCrnException;
 import com.nutrili.exception.InvalidNutritionistRequest;
-import com.nutrili.exception.SomethingWentWrongException;
 import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.*;
 import com.nutrili.external.database.entity.Nutritionist;
@@ -81,7 +79,7 @@ public class NutritionistService {
                 .post();
 
         if(doc.select("tr").isEmpty() || doc.select("tr").size()<2){
-            throw new InvalidCrnException();
+          //  throw new InvalidCrnException();
         }
         Element tableRow = doc.select("tr").get(1);
         List<String> tableColumn =tableRow.select("td").stream().map(elem -> elem.toString()).collect(Collectors.toList());
@@ -90,8 +88,8 @@ public class NutritionistService {
             tableColumn.set(i,tableColumn.get(i).replace("<td>","").replace("</td>",""));
         }
 
-        if(!tableColumn.get(0).equals(name.toUpperCase()) || !tableColumn.get(1).equals(crn))
-            throw new InvalidCrnException();
+       // if(!tableColumn.get(0).equals(name.toUpperCase()) || !tableColumn.get(1).equals(crn))
+          //  throw new InvalidCrnException();
 
     }
 

@@ -23,7 +23,7 @@ public class UserDTO {
 
     private String crnType;
 
-    @Size(min=1, max=30)
+    @Size(min=1, max=60)
     private String name;
 
     @Size(min=1)

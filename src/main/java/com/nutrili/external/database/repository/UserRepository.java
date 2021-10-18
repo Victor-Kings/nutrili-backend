@@ -16,5 +16,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("select u from User u where u.phone= :searchPhone")
     Optional<User> findByPhone(@Param("searchPhone") String phone);
 
+    Optional<User> findByCpf(String cpf);
+
 
 }

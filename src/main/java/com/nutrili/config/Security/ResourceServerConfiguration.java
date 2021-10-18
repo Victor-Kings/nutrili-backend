@@ -22,12 +22,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/insertUser")
-                .permitAll()
-                .antMatchers("/user/smsToken")
-                .permitAll()
-                .antMatchers("/nutritionist/validateCrn")
-                .permitAll()
                 .anyRequest()
                 .fullyAuthenticated();
     }

@@ -11,7 +11,7 @@ public enum ApplicationExceptionEnum {
     REPEATED_EMAIL(HttpStatus.NOT_ACCEPTABLE,"email is already present in DB"),
     INVALID_NUTRITIONIST_REQUEST(HttpStatus.NOT_ACCEPTABLE,"you have already made a request within 30 days to a nutritionist which hasn't been replied yet"),
     SOMETHING_WENT_WRONG(HttpStatus.INTERNAL_SERVER_ERROR,"something went wrong "),
-    INVALID_CRN(HttpStatus.NOT_ACCEPTABLE,"Wrong combination of name and crn");
+    INVALID_CPF(HttpStatus.NOT_ACCEPTABLE,"cpf was already taken by someone else");
 
     private final HttpStatus code;
     private final String message;
