@@ -194,7 +194,8 @@ public class NutritionistService {
             patientDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
 
             if(patient.getDateOfLastMeeting()!=null){
-                patientDTO.setDateOfLastMeeting((patient.getDateOfLastMeeting().toString()));
+                int days= ((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getDateOfLastMeeting().getTime(),TimeUnit.MILLISECONDS)));
+                patientDTO.setDateOfLastMeeting(String.valueOf(days));
             }
 
             patientDTO.setProfileIcon(patient.getImage());
