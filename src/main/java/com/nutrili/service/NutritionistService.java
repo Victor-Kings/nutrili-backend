@@ -165,9 +165,9 @@ public class NutritionistService {
         Page<Patient> pagePatient;
 
         if(asc) {
-            pageable = PageRequest.of(pageNumber, 8, Sort.by(Sort.Direction.ASC, "name"));
+            pageable = PageRequest.of(pageNumber-1, 8, Sort.by(Sort.Direction.ASC, "name"));
         } else {
-            pageable = PageRequest.of(pageNumber, 8, Sort.by(Sort.Direction.DESC, "name"));
+            pageable = PageRequest.of(pageNumber-1, 8, Sort.by(Sort.Direction.DESC, "name"));
         }
 
         if(name != null) {
