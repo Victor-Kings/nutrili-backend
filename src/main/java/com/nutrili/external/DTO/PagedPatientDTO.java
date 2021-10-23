@@ -8,7 +8,7 @@ import java.util.List;
 public class PagedPatientDTO {
     private List<PatientDTO> patientDTOList;
     private boolean lastPage;
-    private int numberOfpages;
+    private int numberOfPages;
     private boolean firstPage;
 
 }

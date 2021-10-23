@@ -11,4 +11,5 @@ public class PatientDTO {
     private String name;
     private String status;
     private String dateOfLastMeeting;
+    private int age;
 }

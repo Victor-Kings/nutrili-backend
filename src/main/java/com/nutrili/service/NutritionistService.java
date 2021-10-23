@@ -146,7 +146,7 @@ public class NutritionistService {
                 nutritionistRequestDTO.setAddress(GenericMethods.mountAddress(nutritionistApproval.getPatient().getAddressId()));
 
             measureDTO.setHeight(nutritionistApproval.getPatient().getHeight());
-           // measureDTO.setWeight(nutritionistApproval.getPatient().getWeight());
+            measureDTO.setWeight(nutritionistApproval.getPatient().getWeight());
             measureDTO.setBmi(nutritionistApproval.getPatient().getWeight()/Math.pow((nutritionistApproval.getPatient().getHeight()/100),2));
             nutritionistRequestDTO.setMeasure(measureDTO);
             nutritionistRequestDTOList.add(nutritionistRequestDTO);
@@ -178,7 +178,7 @@ public class NutritionistService {
         pagedPatientDTO.setPatientDTOList(preparePatientList(pagePatient));
         pagedPatientDTO.setFirstPage(pagePatient.isFirst());
         pagedPatientDTO.setLastPage(pagePatient.isLast());
-        pagedPatientDTO.setNumberOfpages(pagePatient.getTotalPages());
+        pagedPatientDTO.setNumberOfPages(pagePatient.getTotalPages());
 
         return pagedPatientDTO;
 
@@ -189,8 +189,9 @@ public class NutritionistService {
         patients.forEach(patient -> {
             PatientDTO patientDTO = new PatientDTO();
             patientDTO.setPatientID(patient.getId());
-            patientDTO.setName(patient.getName());
+            patientDTO.setName(Arrays.stream(patient.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
             patientDTO.setStatus(patient.getStatus());
+            patientDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
 
             if(patient.getDateOfLastMeeting()!=null){
                 patientDTO.setDateOfLastMeeting((patient.getDateOfLastMeeting().toString()));
