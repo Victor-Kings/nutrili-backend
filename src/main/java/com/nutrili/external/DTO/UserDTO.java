@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nutrili.external.database.entity.Address;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
@@ -17,6 +19,8 @@ public class UserDTO {
     private boolean nutritionist;
 
     private UUID patientID;
+
+    private MultipartFile profilePic;
 
     private Double height;
 

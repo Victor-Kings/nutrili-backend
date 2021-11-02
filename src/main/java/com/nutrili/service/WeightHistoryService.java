@@ -39,7 +39,7 @@ public class WeightHistoryService {
             data.add(weight.getWeight());
         });
         weightChartDataDTO.setData(data);
-        weightChartDataDTO.setLabel("WeightChart");
+        weightChartDataDTO.setLabel("Gráfico de IMC");
 
         weightHistoryDTO.setChartData(weightChartDataDTO);
         weightHistoryDTO.setDates(dates);

@@ -13,10 +13,12 @@ import com.nutrili.service.ValidateTokenService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -71,6 +73,18 @@ public class UserController {
         userDetailsService.updateUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),userDTO);
         return new ResponseEntity<String>("User was modified successfully",HttpStatus.OK);
     }
+
+    @PutMapping(value="/updateUserProfilePic")
+    @Secured({RoleConst.ROLE_NUTRITIONIST,RoleConst.ROLE_PATIENT})
+    public ResponseEntity<?> updateUserProfilePic(@RequestPart(value = "profilePic", required = false) MultipartFile profilePic)
+    {
+        //userDetailsService.updateUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),userDTO);\
+        System.out.println("\n"+profilePic.getOriginalFilename());
+        return new ResponseEntity<String>(profilePic.toString(),HttpStatus.OK);
+    }
+
+
+
 
     @GetMapping(value="/isNewUser")
     @Secured({RoleConst.ROLE_PATIENT})
