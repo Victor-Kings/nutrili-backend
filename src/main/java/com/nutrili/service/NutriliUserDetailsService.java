@@ -205,6 +205,10 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
                 nutritionist.getOfficeId().setNumber(GenericMethods.nvl(userDTO.getOfficeAddress().getNumber(),user.getAddressId().getNumber()));
 
+                nutritionist.getOfficeId().setOfficeName(GenericMethods.nvl(userDTO.getOfficeAddress().getOfficeName(),user.getAddressId().getOfficeName()));
+
+                nutritionist.getOfficeId().setOfficePhone(GenericMethods.nvl(userDTO.getOfficeAddress().getOfficePhone(),user.getAddressId().getOfficePhone()));
+
             } else if(userDTO.getOfficeAddress()!=null) {
                 nutritionist.setOfficeId(userDTO.getOfficeAddress());
             }

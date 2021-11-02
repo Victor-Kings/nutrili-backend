@@ -50,6 +50,13 @@ public class Address {
     @Size(min=1)
     private String number;
 
+    @Column(name="officeName")
+    private String officeName;
+
+    @Column(name="officePhone")
+    @Size(min=11,max=11)
+    private String officePhone;
+
     public Address(String cep, String state, String city, String neighborhood, String street, String number) {
         this.cep = cep;
         this.state = state;

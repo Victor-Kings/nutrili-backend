@@ -223,6 +223,8 @@ public class NutritionistService {
             nutriliUserDetailsService.getUser(userDTO.getPatientID()).ifPresentOrElse(user->{
                 nutriliUserDetailsService.updateUser(user,userDTO);
                     },()->{throw new UserNotFoundException();});
+        } else {
+            throw new UserNotFoundException();
         }
     }
 
@@ -243,6 +245,21 @@ public class NutritionistService {
         patientDashboardDTO.setWeightHistoryChart(weightHistoryService.getWeightChartData(patientID));
         patientDashboardDTO.setPatient(preparePatient(patientRepository.findById(patientID).get()));
         return patientDashboardDTO;
+    }
+
+    public NutritionistInfoDTO getNutritionistInfo(Nutritionist nutritionist){
+        NutritionistInfoDTO nutritionistInfoDTO = new NutritionistInfoDTO();
+        nutritionistInfoDTO.setPhone(nutritionist.getPhone());
+        nutritionistInfoDTO.setOffice(GenericMethods.mountAddress(nutritionist.getOfficeId()));
+        nutritionistInfoDTO.setCrnType(nutritionist.getCrnType());
+        nutritionistInfoDTO.setScore(nutritionist.getScore());
+        nutritionistInfoDTO.setNumberOfPatients(patientRepository.findPatientByNutritionist(nutritionist.getId()).size());
+        nutritionistInfoDTO.setName(Arrays.stream(nutritionist.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
+        nutritionistInfoDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -nutritionist.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
+        nutritionistInfoDTO.setOfficeName(nutritionist.getOfficeId().getOfficeName());
+        nutritionistInfoDTO.setOfficePhone(nutritionist.getOfficeId().getOfficePhone());
+        return nutritionistInfoDTO;
+
     }
 
 }
