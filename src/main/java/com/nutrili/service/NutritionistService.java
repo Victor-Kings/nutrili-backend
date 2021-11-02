@@ -8,6 +8,7 @@ import com.nutrili.external.DTO.*;
 import com.nutrili.external.database.entity.Nutritionist;
 import com.nutrili.external.database.entity.NutritionistApproval;
 import com.nutrili.external.database.entity.Patient;
+import com.nutrili.external.database.entity.User;
 import com.nutrili.external.database.repository.NutritionistApprovalRepository;
 import com.nutrili.external.database.repository.NutritionistRepository;
 import com.nutrili.external.database.repository.PatientRepository;
@@ -46,6 +47,9 @@ public class NutritionistService {
 
     @Autowired
     PatientRepository patientRepository;
+
+    @Autowired
+    NutriliUserDetailsService nutriliUserDetailsService;
 
 
     public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
@@ -204,5 +208,11 @@ public class NutritionistService {
         return patientList;
     }
 
-
+    public void updatePatient(UserDTO userDTO){
+        if(userDTO.getPatientID()!=null){
+            nutriliUserDetailsService.getUser(userDTO.getPatientID()).ifPresentOrElse(user->{
+                nutriliUserDetailsService.updateUser(user,userDTO);
+                    },()->{throw new UserNotFoundException();});
+        }
+    }
 }

@@ -16,10 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -268,6 +265,10 @@ public class NutriliUserDetailsService implements UserDetailsService {
         nutritionist.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         nutritionist.setPhone(userDTO.getPhone());
         nutritionist.setRoles(Arrays.asList(role));
+    }
+
+    public Optional<User> getUser(UUID userId){
+        return userRepository.findById(userId);
     }
 
 }

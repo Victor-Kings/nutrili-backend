@@ -1,15 +1,22 @@
 package com.nutrili.controller;
 
 import com.nutrili.Utils.RoleConst;
+import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.Nutritionist;
 import com.nutrili.external.database.entity.Patient;
+import com.nutrili.external.database.entity.User;
+import com.nutrili.service.NutriliUserDetailsService;
 import com.nutrili.service.NutritionistService;
 import com.nutrili.service.ValidateTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -53,6 +60,14 @@ public class NutritionistController {
     @Secured({RoleConst.ROLE_NUTRITIONIST})
     public ResponseEntity<?> getClient(@NotNull @RequestParam int pageNumber, @NotNull @RequestParam boolean asc, @RequestParam String name){
         return ResponseEntity.ok(nutritionistService.getClient(pageNumber,asc,name,((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
+    }
+
+    @PutMapping("/updatePatient")
+    @Secured({RoleConst.ROLE_NUTRITIONIST})
+    public ResponseEntity<?> updatePatient( @Valid @RequestBody UserDTO userDTO)
+    {
+        nutritionistService.updatePatient(userDTO);
+        return new ResponseEntity<String>("User was modified successfully", HttpStatus.OK);
     }
 
 }
