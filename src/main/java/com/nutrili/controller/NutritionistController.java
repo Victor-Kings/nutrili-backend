@@ -70,4 +70,10 @@ public class NutritionistController {
         return new ResponseEntity<String>("User was modified successfully", HttpStatus.OK);
     }
 
+    @GetMapping("/getPatientDashboard")
+    @Secured({RoleConst.ROLE_NUTRITIONIST})
+    public ResponseEntity<?> getPatientDashboard(@NotNull @RequestParam UUID patientID) {
+        return ResponseEntity.ok(nutritionistService.getPatientDashboard(patientID));
+    }
+
 }

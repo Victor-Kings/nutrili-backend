@@ -51,6 +51,9 @@ public class NutritionistService {
     @Autowired
     NutriliUserDetailsService nutriliUserDetailsService;
 
+    @Autowired
+    WeightHistoryService weightHistoryService;
+
 
     public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
     {
@@ -188,22 +191,29 @@ public class NutritionistService {
 
     }
 
+    private PatientDTO preparePatient(Patient patient){
+        PatientDTO patientDTO= new PatientDTO();
+
+        patientDTO.setPatientID(patient.getId());
+        patientDTO.setName(Arrays.stream(patient.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
+        patientDTO.setStatus(patient.getStatus());
+        patientDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
+
+        if(patient.getDateOfLastMeeting()!=null){
+            int days= ((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getDateOfLastMeeting().getTime(),TimeUnit.MILLISECONDS)));
+            patientDTO.setDateOfLastMeeting(String.valueOf(days));
+        }
+
+        patientDTO.setProfileIcon(patient.getImage());
+
+        return patientDTO;
+
+    }
+
     private List<PatientDTO> preparePatientList(Page<Patient> patients){
         List<PatientDTO> patientList = new ArrayList<>();
         patients.forEach(patient -> {
-            PatientDTO patientDTO = new PatientDTO();
-            patientDTO.setPatientID(patient.getId());
-            patientDTO.setName(Arrays.stream(patient.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
-            patientDTO.setStatus(patient.getStatus());
-            patientDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
-
-            if(patient.getDateOfLastMeeting()!=null){
-                int days= ((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getDateOfLastMeeting().getTime(),TimeUnit.MILLISECONDS)));
-                patientDTO.setDateOfLastMeeting(String.valueOf(days));
-            }
-
-            patientDTO.setProfileIcon(patient.getImage());
-            patientList.add(patientDTO);
+            patientList.add(preparePatient(patient));
         });
         return patientList;
     }
@@ -215,4 +225,24 @@ public class NutritionistService {
                     },()->{throw new UserNotFoundException();});
         }
     }
+
+    private MeasureDTO getPatientMeasure(UUID patientID){
+        MeasureDTO measureDTO = new MeasureDTO();
+        nutriliUserDetailsService.getUser(patientID).ifPresentOrElse(user->{
+            Patient patient = (Patient) user;
+            measureDTO.setHeight(patient.getHeight());
+            measureDTO.setWeight(patient.getWeight());
+            measureDTO.setBmi(patient.getWeight()/Math.pow((patient.getHeight()/100),2));
+        },()->{throw new UserNotFoundException();});
+        return measureDTO;
+    }
+
+    public  PatientDashboardDTO getPatientDashboard(UUID patientID){
+        PatientDashboardDTO patientDashboardDTO = new PatientDashboardDTO();
+        patientDashboardDTO.setMeasure(getPatientMeasure(patientID));
+        patientDashboardDTO.setWeightHistoryChart(weightHistoryService.getWeightChartData(patientID));
+        patientDashboardDTO.setPatient(preparePatient(patientRepository.findById(patientID).get()));
+        return patientDashboardDTO;
+    }
+
 }

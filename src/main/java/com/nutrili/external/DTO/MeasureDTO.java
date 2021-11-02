@@ -7,5 +7,4 @@ public class MeasureDTO {
     private double height;
     private double weight;
     private double bmi;
-
 }
