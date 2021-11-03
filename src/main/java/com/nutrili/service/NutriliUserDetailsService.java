@@ -102,7 +102,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     private void validateUser(String phone, String email,String cpf,String userPhone){
 
-        if (phone!=null && userRepository.findByPhone(phone).isPresent() && userPhone!=phone)
+        if (phone!=null && userRepository.findByPhone(phone).isPresent() && !userPhone.equals(phone))
             throw new RepeatedPhoneException();
 
         if (email!=null && userRepository.findByEmail(email).isPresent())
