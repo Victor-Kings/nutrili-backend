@@ -115,7 +115,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     public void insertUser(UserDTO userDTO) {
 
-        validateUser(userDTO.getPhone(),userDTO.getEmail(),userDTO.getCpf());
+        validateUser(userDTO.getPhone(),userDTO.getEmail(),userDTO.getCpf().replace(".","").replace("/",""));
         /*
         try {
             nutritionistService.validateNutritionist(userDTO.getCrn(), userDTO.getName());
@@ -150,6 +150,10 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
     public void updateUser(User user, UserDTO userDTO) {
 
+        if(userDTO.getCpf()!=null){
+            userDTO.setCpf(userDTO.getCpf().replace(".","").replace("/",""));
+        }
+
         validateUser(userDTO.getPhone(),userDTO.getEmail(),userDTO.getCpf());
 
         user.setBirth(GenericMethods.nvl(userDTO.getBirth(),user.getBirth()));
@@ -166,7 +170,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
         user.setImage(GenericMethods.nvl(userDTO.getImage(),user.getImage()));
 
-        if (user.getAddressId() != null) {
+        if (user.getAddressId() != null && userDTO.getPersonalAddress()!=null) {
 
             user.getAddressId().setCep(GenericMethods.nvl(userDTO.getPersonalAddress().getCep(),user.getAddressId().getCep()));
 
@@ -191,7 +195,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
             nutritionist.setCrnType(GenericMethods.nvl(userDTO.getCrnType(),nutritionist.getCrnType()));
 
-            if (nutritionist.getOfficeId() != null) {
+            if (nutritionist.getOfficeId() != null && userDTO.getOfficeAddress()!=null) {
 
                 nutritionist.getOfficeId().setCep(GenericMethods.nvl(userDTO.getOfficeAddress().getCep(),user.getAddressId().getCep()));
 
@@ -261,7 +265,7 @@ public class NutriliUserDetailsService implements UserDetailsService {
         nutritionist.setCrn(userDTO.getCrn());
         nutritionist.setCrnType(userDTO.getCrnType());
         nutritionist.setBirth(userDTO.getBirth());
-        nutritionist.setCpf(userDTO.getCpf());
+        nutritionist.setCpf(userDTO.getCpf().replace(".","").replace("/",""));
         nutritionist.setEmail(userDTO.getEmail());
         nutritionist.setGender(userDTO.getGender());
         nutritionist.setImage(userDTO.getImage());

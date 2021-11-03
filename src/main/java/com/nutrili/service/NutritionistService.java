@@ -250,14 +250,12 @@ public class NutritionistService {
     public NutritionistInfoDTO getNutritionistInfo(Nutritionist nutritionist){
         NutritionistInfoDTO nutritionistInfoDTO = new NutritionistInfoDTO();
         nutritionistInfoDTO.setPhone(nutritionist.getPhone());
-        nutritionistInfoDTO.setOffice(GenericMethods.mountAddress(nutritionist.getOfficeId()));
+        nutritionistInfoDTO.setOffice(nutritionist.getOfficeId());
         nutritionistInfoDTO.setCrnType(nutritionist.getCrnType());
         nutritionistInfoDTO.setScore(nutritionist.getScore());
         nutritionistInfoDTO.setNumberOfPatients(patientRepository.findPatientByNutritionist(nutritionist.getId()).size());
         nutritionistInfoDTO.setName(Arrays.stream(nutritionist.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
-        nutritionistInfoDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -nutritionist.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
-        nutritionistInfoDTO.setOfficeName(nutritionist.getOfficeId().getOfficeName());
-        nutritionistInfoDTO.setOfficePhone(nutritionist.getOfficeId().getOfficePhone());
+        nutritionistInfoDTO.setBirth(nutritionist.getBirth().toString());
         return nutritionistInfoDTO;
 
     }
