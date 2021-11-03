@@ -253,6 +253,7 @@ public class NutritionistService {
         nutritionistInfoDTO.setOffice(nutritionist.getOfficeId());
         nutritionistInfoDTO.setCrnType(nutritionist.getCrnType());
         nutritionistInfoDTO.setScore(nutritionist.getScore());
+        nutritionistInfoDTO.setProfilePic(nutritionist.getImage());
         nutritionistInfoDTO.setNumberOfPatients(patientRepository.findPatientByNutritionist(nutritionist.getId()).size());
         nutritionistInfoDTO.setName(Arrays.stream(nutritionist.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
         nutritionistInfoDTO.setBirth(nutritionist.getBirth().toString());
