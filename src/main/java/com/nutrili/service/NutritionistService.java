@@ -23,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -248,6 +249,7 @@ public class NutritionistService {
     }
 
     public NutritionistInfoDTO getNutritionistInfo(Nutritionist nutritionist){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         NutritionistInfoDTO nutritionistInfoDTO = new NutritionistInfoDTO();
         nutritionistInfoDTO.setPhone(nutritionist.getPhone());
         nutritionistInfoDTO.setOffice(nutritionist.getOfficeId());
@@ -256,7 +258,7 @@ public class NutritionistService {
         nutritionistInfoDTO.setProfilePic(nutritionist.getImage());
         nutritionistInfoDTO.setNumberOfPatients(patientRepository.findPatientByNutritionist(nutritionist.getId()).size());
         nutritionistInfoDTO.setName(Arrays.stream(nutritionist.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
-        nutritionistInfoDTO.setBirth(nutritionist.getBirth().toString());
+        nutritionistInfoDTO.setBirth(formatter.format(nutritionist.getBirth()));
         return nutritionistInfoDTO;
 
     }
