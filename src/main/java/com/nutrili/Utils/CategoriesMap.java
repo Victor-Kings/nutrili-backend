@@ -17,6 +17,5 @@ public class CategoriesMap {
         put(8,"Leites e Derivados");
         put(9,"Óleos e Gorduras");
         put(10,"Oleaginosas");
-        put(11,"não especificado");
     }};
 }

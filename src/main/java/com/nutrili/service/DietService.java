@@ -9,10 +9,7 @@ import com.nutrili.external.database.repository.DietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +29,7 @@ public class DietService {
                 diet.setCategory(dietDTO.getName());
                 diet.setPatient((Patient) nutriliUserDetailsService.getUser(patientID).get());
                 diet.setFoods(dietDTO.getFood().stream().collect(Collectors.joining(";")));
+                diet.setDateOfDiet(new Date());
                 dietRepository.save(diet);
             });
         } else {
@@ -48,5 +46,10 @@ public class DietService {
             dietDTOList.add(dietDTO);
         });
         return dietDTOList;
+    }
+    public String recentDiet(UUID patientID){
+        if(!dietRepository.recentDiet(patientID,new Date()).isEmpty())
+                return "Atualizada";
+        return null;
     }
 }

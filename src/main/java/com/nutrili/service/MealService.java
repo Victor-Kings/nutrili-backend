@@ -50,7 +50,11 @@ public class MealService {
             if(mealChartDataDTOList.stream().filter(mealChartDataDTO -> mealChartDataDTO.getCategory().equals(meal.getCategory())).findFirst().isEmpty()) {
                 MealChartMobileDTO mealChartMobileDTO = new MealChartMobileDTO();
                 mealChartMobileDTO.setCategory(meal.getCategory());
-                mealChartMobileDTO.setType((int) CategoriesMap.categoriesMap.getReverse(meal.getCategory()));
+                if(CategoriesMap.categoriesMap.containsValue(meal.getCategory())) {
+                    mealChartMobileDTO.setType((int) CategoriesMap.categoriesMap.getReverse(meal.getCategory()));
+                } else {
+                    mealChartMobileDTO.setType(11);
+                }
                 mealChartMobileDTO.setPercentage((double)mealList.stream().filter(meal1 ->  meal1.getCategory().equals(meal.getCategory())).count()*100/mealList.size());
                 mealChartDataDTOList.add(mealChartMobileDTO);
             }

@@ -29,9 +29,6 @@ public class Patient extends User{
     @JoinColumn(name = "nutritionist")
     private Nutritionist nutritionist;
 
-    @Column(name="status")
-    private String status;
-
     @Column(name="lastMeeting")
     private Date dateOfLastMeeting;
 

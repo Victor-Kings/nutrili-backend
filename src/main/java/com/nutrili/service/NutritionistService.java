@@ -203,7 +203,7 @@ public class NutritionistService {
 
         patientDTO.setPatientID(patient.getId());
         patientDTO.setName(Arrays.stream(patient.getName().split(" ")).map(name->name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase()).collect(Collectors.joining(" ")));
-        patientDTO.setStatus(patient.getStatus());
+        patientDTO.setStatus(dietService.recentDiet(patient.getId()));
         patientDTO.setAge((int) (TimeUnit.DAYS.convert(new Date().getTime() -patient.getBirth().getTime(),TimeUnit.MILLISECONDS)/365));
 
         if(patient.getDateOfLastMeeting()!=null){

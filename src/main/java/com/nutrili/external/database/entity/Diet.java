@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,5 +37,8 @@ public class Diet {
     @NotNull
     @JoinColumn(name = "patient")
     private Patient patient;
+
+    @NotNull
+    private Date dateOfDiet;
 
 }
