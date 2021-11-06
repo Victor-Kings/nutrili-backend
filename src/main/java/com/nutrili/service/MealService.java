@@ -1,5 +1,6 @@
 package com.nutrili.service;
 
+import com.nutrili.external.DTO.MealChartDataDTO;
 import com.nutrili.external.DTO.MealDTO;
 import com.nutrili.external.database.entity.Meal;
 import com.nutrili.external.database.entity.Patient;
@@ -7,8 +8,7 @@ import com.nutrili.external.database.repository.MealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class MealService {
@@ -26,5 +26,18 @@ public class MealService {
             meal.setPatient(patient);
             mealRepository.save(meal);
         });
+    }
+
+    public MealChartDataDTO getChart(UUID patientID){
+        MealChartDataDTO mealChartDataDTOList = new MealChartDataDTO();
+        List<Meal> mealList= mealRepository.recentMeal(patientID,new Date());
+       mealList.stream().forEach((meal)->{
+           if(mealChartDataDTOList.getCategory().stream().filter(mealChartDataDTO -> mealChartDataDTO.equals(meal.getCategory())).findFirst().isEmpty()) {
+               mealChartDataDTOList.getCategory().add(meal.getCategory());
+               mealChartDataDTOList.getCount().add((int) mealList.stream().filter(meal1 ->  meal1.getCategory().equals(meal.getCategory())).count());
+           }
+        });
+       return mealChartDataDTOList;
+
     }
 }

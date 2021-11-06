@@ -25,8 +25,18 @@ public class MealController {
     @PostMapping("/mealTime")
     @Secured({RoleConst.ROLE_PATIENT})
     public ResponseEntity requestNutritionist(@Valid @RequestBody List<MealDTO> mealDTOList){
+        String category="";
+        mealDTOList.stream().filter((mealDTO -> mealDTO.getCategory().contains(category))).findFirst();
         mealService.insertMeal((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),mealDTOList);
         return ResponseEntity.ok("meal was recorded");
     }
+
+    @GetMapping("/mealChart")
+    @Secured({RoleConst.ROLE_PATIENT})
+    public ResponseEntity mealChart(){
+
+        return ResponseEntity.ok(mealService.getChart(((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
+    }
+
 
 }

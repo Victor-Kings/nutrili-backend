@@ -9,4 +9,5 @@ public class PatientDashboardDTO {
     WeightHistoryDTO weightHistoryChart;
     MeasureDTO measure;
     PatientDTO patient;
+    MealChartDataDTO mealChartDataDTO;
 }
