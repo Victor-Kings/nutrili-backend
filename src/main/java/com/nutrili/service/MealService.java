@@ -1,6 +1,7 @@
 package com.nutrili.service;
 
 import com.nutrili.external.DTO.MealChartDataDTO;
+import com.nutrili.external.DTO.MealChartMobileDTO;
 import com.nutrili.external.DTO.MealDTO;
 import com.nutrili.external.database.entity.Meal;
 import com.nutrili.external.database.entity.Patient;
@@ -40,4 +41,20 @@ public class MealService {
        return mealChartDataDTOList;
 
     }
+
+    public List<MealChartMobileDTO> getChartMobile(UUID patientID){
+        List<MealChartMobileDTO> mealChartDataDTOList= new ArrayList<>();
+        List<Meal> mealList= mealRepository.recentMeal(patientID,new Date());
+        mealList.stream().forEach((meal)->{
+            if(mealChartDataDTOList.stream().filter(mealChartDataDTO -> mealChartDataDTO.getCategory().equals(meal.getCategory())).findFirst().isEmpty()) {
+                MealChartMobileDTO mealChartMobileDTO = new MealChartMobileDTO();
+                mealChartMobileDTO.setCategory(meal.getCategory());
+                mealChartMobileDTO.setPercentage((double)mealList.stream().filter(meal1 ->  meal1.getCategory().equals(meal.getCategory())).count()*100/mealList.size());
+                mealChartDataDTOList.add(mealChartMobileDTO);
+            }
+        });
+        return mealChartDataDTOList;
+
+    }
+
 }

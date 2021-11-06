@@ -35,7 +35,7 @@ public class MealController {
     @Secured({RoleConst.ROLE_PATIENT})
     public ResponseEntity mealChart(){
 
-        return ResponseEntity.ok(mealService.getChart(((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
+        return ResponseEntity.ok(mealService.getChartMobile(((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
     }
 
 
