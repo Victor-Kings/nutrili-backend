@@ -2,7 +2,6 @@ package com.nutrili.controller;
 
 import com.nutrili.Utils.RoleConst;
 import com.nutrili.external.DTO.DietDTO;
-import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.Patient;
 import com.nutrili.service.DietService;
 import org.springframework.beans.factory.annotation.Autowired;
