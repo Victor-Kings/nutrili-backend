@@ -1,0 +1,14 @@
+version: "3"
+services:
+  tad:
+    image: postgres:9.6
+    container_name: "postgres2"
+    environment:
+      - POSTGRES_DB=nutrili
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - TZ=GMT
+    volumes:
+      - "./data/postgres2:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
