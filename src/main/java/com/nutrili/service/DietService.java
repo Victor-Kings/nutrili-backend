@@ -8,6 +8,8 @@ import com.nutrili.external.database.repository.DietRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,5 +36,16 @@ public class DietService {
         } else {
             throw new UserNotFoundException();
         }
+    }
+
+    public List<DietDTO> getDietList(UUID patientID){
+        List<DietDTO> dietDTOList = new ArrayList<>();
+        dietRepository.findByPatient(patientID).forEach(diet -> {
+            DietDTO dietDTO = new DietDTO();
+            dietDTO.setName(diet.getCategory());
+            dietDTO.setFood(Arrays.stream(diet.getFoods().split(";")).collect(Collectors.toList()));
+            dietDTOList.add(dietDTO);
+        });
+        return dietDTOList;
     }
 }

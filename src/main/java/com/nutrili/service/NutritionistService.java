@@ -58,6 +58,9 @@ public class NutritionistService {
     @Autowired
     MealService mealService;
 
+    @Autowired
+    DietService dietService;
+
 
     public List<NutritionistDTO> findNutritionist(String searchParameter, int searchMethod)
     {
@@ -249,6 +252,7 @@ public class NutritionistService {
         patientDashboardDTO.setWeightHistoryChart(weightHistoryService.getWeightChartData(patientID));
         patientDashboardDTO.setPatient(preparePatient(patientRepository.findById(patientID).get()));
         patientDashboardDTO.setMealChartDataDTO(mealService.getChart(patientID));
+        patientDashboardDTO.setDiet(dietService.getDietList(patientID));
         return patientDashboardDTO;
     }
 
