@@ -1,5 +1,6 @@
 package com.nutrili.service;
 
+import com.nutrili.Utils.QuestionsMap;
 import com.nutrili.exception.UserNotFoundException;
 import com.nutrili.external.DTO.DietDTO;
 import com.nutrili.external.database.entity.Diet;

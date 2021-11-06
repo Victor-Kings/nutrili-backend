@@ -1,5 +1,6 @@
 package com.nutrili.service;
 
+import com.nutrili.Utils.CategoriesMap;
 import com.nutrili.external.DTO.MealChartDataDTO;
 import com.nutrili.external.DTO.MealChartMobileDTO;
 import com.nutrili.external.DTO.MealDTO;
@@ -42,13 +43,16 @@ public class MealService {
 
     }
 
-    public MealChartMobileDTO getChartMobile(UUID patientID){
-        MealChartMobileDTO mealChartDataDTOList = new MealChartMobileDTO();
+    public List<MealChartMobileDTO> getChartMobile(UUID patientID){
+        List<MealChartMobileDTO> mealChartDataDTOList= new ArrayList<>();
         List<Meal> mealList= mealRepository.recentMeal(patientID,new Date());
         mealList.stream().forEach((meal)->{
-            if(mealChartDataDTOList.getCategory().stream().filter(mealChartDataDTO -> mealChartDataDTO.equals(meal.getCategory())).findFirst().isEmpty()) {
-                mealChartDataDTOList.getCategory().add(meal.getCategory());
-                mealChartDataDTOList.getPercentage().add((double)mealList.stream().filter(meal1 ->  meal1.getCategory().equals(meal.getCategory())).count()*100/mealList.size());
+            if(mealChartDataDTOList.stream().filter(mealChartDataDTO -> mealChartDataDTO.getCategory().equals(meal.getCategory())).findFirst().isEmpty()) {
+                MealChartMobileDTO mealChartMobileDTO = new MealChartMobileDTO();
+                mealChartMobileDTO.setCategory(meal.getCategory());
+                mealChartMobileDTO.setType((int) CategoriesMap.categoriesMap.getReverse(meal.getCategory()));
+                mealChartMobileDTO.setPercentage((double)mealList.stream().filter(meal1 ->  meal1.getCategory().equals(meal.getCategory())).count()*100/mealList.size());
+                mealChartDataDTOList.add(mealChartMobileDTO);
             }
         });
         return mealChartDataDTOList;
