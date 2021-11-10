@@ -27,4 +27,7 @@ public class Properties {
 
     @Value("${nutritionist.url}")
     private String nutritionistUrl;
+
+    @Value("${filePath}")
+    private String filePath;
 }

@@ -28,6 +28,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/oauth/token");
         web.ignoring().antMatchers(HttpMethod.POST, "/user/insertUser");
         web.ignoring().antMatchers(HttpMethod.POST, "/user/smsToken");
+        web.ignoring().antMatchers( "/user/getImage/**");
     }
 
     @Override
