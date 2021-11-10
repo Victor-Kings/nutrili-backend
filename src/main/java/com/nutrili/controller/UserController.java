@@ -6,21 +6,19 @@ import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.Utils.RoleConst;
-import com.nutrili.service.NutriliUserDetailsService;
-import com.nutrili.service.OAuth2Service;
-import com.nutrili.service.SmsService;
-import com.nutrili.service.ValidateTokenService;
+import com.nutrili.service.*;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.*;
+import java.util.UUID;
 
 
 @RestController
@@ -41,6 +39,9 @@ public class UserController {
 
     @Autowired
     OAuth2Service oAuth2Service;
+
+    @Autowired
+    FileService fileService;
 
 
     @PostMapping(value = "/insertUser")
@@ -78,13 +79,10 @@ public class UserController {
     @Secured({RoleConst.ROLE_NUTRITIONIST,RoleConst.ROLE_PATIENT})
     public ResponseEntity<?> updateUserProfilePic(@RequestPart(value = "profilePic", required = false) MultipartFile profilePic)
     {
-        //userDetailsService.updateUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),userDTO);\
-        System.out.println("\n"+profilePic.getOriginalFilename());
-        return new ResponseEntity<String>(profilePic.toString(),HttpStatus.OK);
+       User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       userDetailsService.setImage(fileService.updateFile(profilePic),user);
+        return new ResponseEntity<String>("OK",HttpStatus.OK);
     }
-
-
-
 
     @GetMapping(value="/isNewUser")
     @Secured({RoleConst.ROLE_PATIENT})
@@ -135,6 +133,12 @@ public class UserController {
     {
         System.out.print((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         return new ResponseEntity<String>("vrrum",HttpStatus.OK);
+    }
+
+    @RequestMapping("/getImage/{fileName}")
+    @ResponseBody
+    public FileSystemResource getFile(@PathVariable String fileName) throws IOException {
+        return new FileSystemResource(new File("./user-photos/"+fileName));
     }
 
 }

@@ -279,4 +279,9 @@ public class NutriliUserDetailsService implements UserDetailsService {
         return userRepository.findById(userId);
     }
 
+    public void setImage(String image,User user){
+        user.setImage(image);
+        userRepository.save(user);
+    }
+
 }
