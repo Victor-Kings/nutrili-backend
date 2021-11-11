@@ -7,6 +7,7 @@ import com.nutrili.external.database.entity.Patient;
 import com.nutrili.external.database.entity.User;
 import com.nutrili.Utils.RoleConst;
 import com.nutrili.service.*;
+import com.twilio.rest.serverless.v1.service.Environment;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.*;
+import java.net.InetAddress;
 import java.util.UUID;
 
 
@@ -42,6 +44,7 @@ public class UserController {
 
     @Autowired
     FileService fileService;
+
 
 
     @PostMapping(value = "/insertUser")

@@ -197,21 +197,21 @@ public class NutriliUserDetailsService implements UserDetailsService {
 
             if (nutritionist.getOfficeId() != null && userDTO.getOfficeAddress()!=null) {
 
-                nutritionist.getOfficeId().setCep(GenericMethods.nvl(userDTO.getOfficeAddress().getCep(),user.getAddressId().getCep()));
+                nutritionist.getOfficeId().setCep(GenericMethods.nvl(userDTO.getOfficeAddress().getCep(),nutritionist.getOfficeId().getCep()));
 
-                nutritionist.getOfficeId().setState(GenericMethods.nvl(userDTO.getOfficeAddress().getState(),user.getAddressId().getState()));
+                nutritionist.getOfficeId().setState(GenericMethods.nvl(userDTO.getOfficeAddress().getState(),nutritionist.getOfficeId().getState()));
 
-                nutritionist.getOfficeId().setCity(GenericMethods.nvl(userDTO.getOfficeAddress().getCity(),user.getAddressId().getCity()));
+                nutritionist.getOfficeId().setCity(GenericMethods.nvl(userDTO.getOfficeAddress().getCity(),nutritionist.getOfficeId().getCity()));
 
-                nutritionist.getOfficeId().setNeighborhood(GenericMethods.nvl(userDTO.getOfficeAddress().getNeighborhood(),user.getAddressId().getNeighborhood()));
+                nutritionist.getOfficeId().setNeighborhood(GenericMethods.nvl(userDTO.getOfficeAddress().getNeighborhood(),nutritionist.getOfficeId().getNeighborhood()));
 
-                nutritionist.getOfficeId().setStreet(GenericMethods.nvl(userDTO.getOfficeAddress().getStreet(),user.getAddressId().getStreet()));
+                nutritionist.getOfficeId().setStreet(GenericMethods.nvl(userDTO.getOfficeAddress().getStreet(),nutritionist.getOfficeId().getStreet()));
 
-                nutritionist.getOfficeId().setNumber(GenericMethods.nvl(userDTO.getOfficeAddress().getNumber(),user.getAddressId().getNumber()));
+                nutritionist.getOfficeId().setNumber(GenericMethods.nvl(userDTO.getOfficeAddress().getNumber(),nutritionist.getOfficeId().getNumber()));
 
-                nutritionist.getOfficeId().setOfficeName(GenericMethods.nvl(userDTO.getOfficeAddress().getOfficeName(),user.getAddressId().getOfficeName()));
+                nutritionist.getOfficeId().setOfficeName(GenericMethods.nvl(userDTO.getOfficeAddress().getOfficeName(),nutritionist.getOfficeId().getOfficeName()));
 
-                nutritionist.getOfficeId().setOfficePhone(GenericMethods.nvl(userDTO.getOfficeAddress().getOfficePhone(),user.getAddressId().getOfficePhone()));
+                nutritionist.getOfficeId().setOfficePhone(GenericMethods.nvl(userDTO.getOfficeAddress().getOfficePhone(),nutritionist.getOfficeId().getOfficePhone()));
 
             } else if(userDTO.getOfficeAddress()!=null) {
                 nutritionist.setOfficeId(userDTO.getOfficeAddress());
