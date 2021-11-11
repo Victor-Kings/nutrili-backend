@@ -4,8 +4,6 @@ import com.nutrili.Utils.RoleConst;
 import com.nutrili.external.DTO.UserDTO;
 import com.nutrili.external.database.entity.Nutritionist;
 import com.nutrili.external.database.entity.Patient;
-import com.nutrili.external.database.entity.User;
-import com.nutrili.service.NutriliUserDetailsService;
 import com.nutrili.service.NutritionistService;
 import com.nutrili.service.ValidateTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
