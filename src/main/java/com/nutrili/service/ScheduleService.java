@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,24 +52,25 @@ public class ScheduleService {
 
     public AgendaDTO getAppointment(Nutritionist nutritionist){
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
         List<AppointmentDTO> morningAppointments = new ArrayList<>();
         List<AppointmentDTO> afternoonAppointments= new ArrayList<>();
         AgendaDTO agendaDTO = new AgendaDTO();
+
         nutritionistScheduleRepository.getSchedule(nutritionist.getId(),dateFormat.format(new Date())).stream()
                 .distinct()
+                .sorted(Comparator.comparing(NutritionistSchedule::getStartingTime))
                 .collect(Collectors.toList())
                 .forEach(nutritionistSchedule -> {
             try {
                 AppointmentDTO appointmentDTO = new AppointmentDTO();
                 ScheduleToAppointmentDTO(nutritionistSchedule,appointmentDTO);
-                int time = timeFormat.parse(nutritionistSchedule.getStartingTime()).getHours();
-                if(time>5 && time<=12){
+                int time = Integer.parseInt(nutritionistSchedule.getStartingTime().split(":")[0]);
+                if(time>=0 && time<=11){
                     morningAppointments.add(appointmentDTO);
                 } else {
                     afternoonAppointments.add(appointmentDTO);
                 }
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
