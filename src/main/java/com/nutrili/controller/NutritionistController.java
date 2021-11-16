@@ -76,7 +76,7 @@ public class NutritionistController {
     @GetMapping("/getNutritionistInfo")
     @Secured({RoleConst.ROLE_NUTRITIONIST})
     public ResponseEntity<?> getNutritionistInfo() {
-        return ResponseEntity.ok(nutritionistService.getNutritionistInfo((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        return ResponseEntity.ok(nutritionistService.getNutritionistInfo(((Nutritionist) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
     }
 
 

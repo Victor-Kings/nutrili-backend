@@ -256,7 +256,8 @@ public class NutritionistService {
         return patientDashboardDTO;
     }
 
-    public NutritionistInfoDTO getNutritionistInfo(Nutritionist nutritionist){
+    public NutritionistInfoDTO getNutritionistInfo(UUID nutritionistID){
+        Nutritionist nutritionist =nutritionistRepository.findById(nutritionistID).get();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         NutritionistInfoDTO nutritionistInfoDTO = new NutritionistInfoDTO();
         nutritionistInfoDTO.setPhone(nutritionist.getPhone());
