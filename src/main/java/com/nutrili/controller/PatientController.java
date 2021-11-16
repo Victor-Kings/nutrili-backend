@@ -2,6 +2,7 @@ package com.nutrili.controller;
 
 import com.nutrili.Utils.RoleConst;
 import com.nutrili.external.database.entity.Patient;
+import com.nutrili.external.database.entity.User;
 import com.nutrili.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class PatientController {
     @GetMapping("/getPatient")
     @Secured({RoleConst.ROLE_PATIENT})
     public ResponseEntity getNutritionist() {
-        return ResponseEntity.ok(patientService.getProfile((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        return ResponseEntity.ok(patientService.getProfile(((Patient) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()));
     }
 
 }
